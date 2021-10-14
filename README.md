@@ -1,4 +1,4 @@
-# **SIMD** $^2$
+# **SIMD**^2
 This repo conatins artifacts of the SIMD^2(SIMD square) project. 
 1. Aplied `cuASR` as baseline kernel of srgemm (semiring gemm) computaion, to exploit potential speed-up of a tensor-core-liked hardware accelerator.
 2. Studied the sparsity(density) threshold of gemm-liked computation kernel based on perfomance of `cuSparse_spgemm` and `cublas_gemmEx`.
