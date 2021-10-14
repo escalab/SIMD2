@@ -229,26 +229,33 @@ void bench_case(int M, int N, int K, int s1, int s2, int s3){
 
 
 
-  std::cout << "cuASR_min_plus: " << cuASR_min_plus << " ms\n";
-  std::cout << "cuASR_plus_mul: " << cuASR_plus_mul << " ms\n";
-  std::cout << "cuASR_max_plus: " << cuASR_max_plus << " ms\n";
-  std::cout << "cuASR_max_min: " << cuASR_max_min << " ms\n";
-  std::cout << "cuASR_max_mul: " << cuASR_max_mul << " ms\n";
-  std::cout << "cuASR_min_mul: " << cuASR_min_mul << " ms\n";
-  std::cout << "cuASR_min_max: " << cuASR_min_max << " ms\n";
-  std::cout << "cuASR_or_and: " << cuASR_or_and << " ms\n";
-  std::cout << "cuASR_minus_square: " <<  cuASR_minus_square << " ms\n";
-  std::cout << "cublas_sgemm: " <<  __cublas_sgemm << " ms\n";
-  std::cout << "cublas_gemmEx: " <<  __cublas_gemmEx << " ms\n";
+  std::cout << "cuASR_min_plus: " << cuASR_min_plus << " ns\n";
+  std::cout << "cuASR_plus_mul: " << cuASR_plus_mul << " ns\n";
+  std::cout << "cuASR_max_plus: " << cuASR_max_plus << " ns\n";
+  std::cout << "cuASR_max_min: " << cuASR_max_min << " ns\n";
+  std::cout << "cuASR_max_mul: " << cuASR_max_mul << " ns\n";
+  std::cout << "cuASR_min_mul: " << cuASR_min_mul << " ns\n";
+  std::cout << "cuASR_min_max: " << cuASR_min_max << " ns\n";
+  std::cout << "cuASR_or_and: " << cuASR_or_and << " ns\n";
+  std::cout << "cuASR_minus_square: " <<  cuASR_minus_square << " ns\n";
+  std::cout << "cublas_sgemm: " <<  __cublas_sgemm << " ns\n";
+  std::cout << "cublas_gemmEx: " <<  __cublas_gemmEx << " ns\n";
 
 
 }
 
 int main(){
-  bench_case(1024, 1024, 1024, rand(), rand(), rand());
-  bench_case(2048, 2048, 2048, rand(), rand(), rand());
-  bench_case(4096, 4096, 4096, rand(), rand(), rand());
-  bench_case(8192, 8192, 8192, rand(), rand(), rand());
-  bench_case(16384, 16384, 16384, rand(), rand(), rand());
+  // bench_case(1024, 1024, 1024, rand(), rand(), rand());
+  // bench_case(2048, 2048, 2048, rand(), rand(), rand());
+  // bench_case(4096, 4096, 4096, rand(), rand(), rand());
+  // bench_case(8192, 8192, 8192, rand(), rand(), rand());
+  // bench_case(16384, 16384, 16384, rand(), rand(), rand());
+
+  bench_case(2048, 1024, 512, rand(), rand(), rand());
+  bench_case(4096, 2048, 1024, rand(), rand(), rand());
+  bench_case(8192, 4096, 2048, rand(), rand(), rand());
+  bench_case(16384, 8192, 4096, rand(), rand(), rand());
+  bench_case(32768, 16384, 4096, rand(), rand(), rand());
+  bench_case(65536, 32768, 16384, rand(), rand(), rand());
   return 0;
 }

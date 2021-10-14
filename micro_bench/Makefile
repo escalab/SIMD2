@@ -16,7 +16,7 @@ default: all
 all: srgemm_bench
 
 srgemm_bench:	srgemm_bench.cu ../kernel/srgemm.cuh ../kernel/tensor_srgemm.cuh
-	$(NVCC) -o srgemm_bench srgemm_bench.cu $(INCLUDE) $(NVCC_FLAGS) $(LD_FLAGS)
+	$(NVCC) -O3 -o srgemm_bench srgemm_bench.cu $(INCLUDE) $(NVCC_FLAGS) $(LD_FLAGS)
 
 clean:
 	rm srgemm_bench
