@@ -1,0 +1,4 @@
+cd gpuMSTdpk
+make
+cp MST ../
+cd ..
