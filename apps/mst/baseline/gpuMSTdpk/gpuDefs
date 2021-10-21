@@ -1,0 +1,13 @@
+GPU=1
+ifdef LONG
+INTT = -DLONG
+endif
+
+PCC = g++
+PLFLAGS = $(LFLAGS)
+PCFLAGS = -O2 $(INTT)
+
+NVCC = nvcc
+NLFLAGS = $(LFLAGS)
+NCFLAGS = -O3 $(INTT) -m64 -arch sm_80 --std=c++14 -D_MWAITXINTRIN_H_INCLUDED
+
