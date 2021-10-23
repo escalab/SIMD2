@@ -9,7 +9,7 @@
 #include <float.h>
 #include <chrono>
 
-#define NUM_ITR 30
+#define NUM_ITR 5
 
 
 
@@ -57,7 +57,7 @@ double mst_kernel(float * adj_mat, float * dist, int v) {
     cudaDeviceSynchronize();
     auto end    = high_resolution_clock::now();
     auto delta = duration_cast<nanoseconds>(end - start).count();
-    double rt = delta / 1000000;
+    double rt = (double)delta / 1000000;
     cudaMemcpy(dist, out_d, v*v*sizeof(float), cudaMemcpyDeviceToHost);
     cudaFree(adj_mat_d);
     cudaFree(out_d_delta);

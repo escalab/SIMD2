@@ -51,7 +51,7 @@ double mst_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cub
     cudaDeviceSynchronize();
     auto end    = high_resolution_clock::now();
     auto delta = duration_cast<nanoseconds>(end - start).count();
-    double rt = delta / 1000000;
+    double rt = (double)delta / 1000000;
 
     cudaFree(adj_mat_d);
     cudaFree(out_d_delta);
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]){
 
 
     int num_itrs = mst_itr(adj_mat,mst_tensor,v);
-    printf("iters: %d\n",num_itrs);
+    // printf("iters: %d\n",num_itrs);
 
     cublasHandle_t cublasHandle;
     cublasCreate(&cublasHandle);

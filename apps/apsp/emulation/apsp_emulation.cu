@@ -9,7 +9,7 @@
 #include <float.h>
 #include <chrono>
 
-#define NUM_ITR 100
+#define NUM_ITR 20
 
 double apsp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -50,7 +50,7 @@ double apsp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cu
     cudaDeviceSynchronize();
     auto end    = high_resolution_clock::now();
     auto delta = duration_cast<nanoseconds>(end - start).count();
-    double rt = delta / 1000000;
+    double rt = (double)delta / 1000000;
 
     cudaFree(adj_mat_d);
     cudaFree(out_d_delta);
@@ -166,8 +166,8 @@ int main(int argc, char *argv[]){
     cublasDestroy(cublasHandle);
     free(adj_mat);
     free(dist_tensor);
-    printf("%f\n",rt/NUM_ITR);
-    // printf("%d\n", num_iters);
+    printf("%f\n",rt/(double)NUM_ITR);
+    // printf("%d\n", num_itrs);
     // printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;
 }

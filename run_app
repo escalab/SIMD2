@@ -1,0 +1,3 @@
+cd scripts
+python3 run_apps.py
+cd ..

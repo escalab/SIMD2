@@ -12,7 +12,7 @@
 #include <sys/time.h>
 #include "../../data/graph_gen.h"
 
-#define NUM_ITR 5
+#define NUM_ITR 1
 
 int main(int argc, char *argv[]){
     int v;

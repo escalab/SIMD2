@@ -8,9 +8,9 @@ def main():
     input_data = sys.argv[1]
     try:
         rounds = sys.argv[2]
-    except: rounds = str(1)
+    except: rounds = str(10)
     # print(input_data,rounds)
-    command = ['./MST','-r', rounds, input_data]
+    command = ['./mst_baseline','-r', rounds, input_data]
     res = subprocess.run(command, stdout=subprocess.PIPE).stdout.decode('utf-8')
     res = res.split('\n')
     res = res[1:]
