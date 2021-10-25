@@ -56,4 +56,28 @@ int rgg_1d(float * g, int v, float density, float edge_weight, int seed){
   return edge_count;
 }
 
+int rgg_1d_directed(float *g, int v, float density, float edge_weight,  int seed){
+    int edge_count = 0;
+    srand(seed);
+    int i,j;
+    for(i = 0; i < v ;i ++){
+        for(j = 0; j < v; j++){
+            if (i == j){
+              g[i * v + j] = 0.0;
+              continue;
+            }
+            float weight = (float)rand()/(float)(RAND_MAX/edge_weight);
+            float has_edge = (float)rand()/(float)(RAND_MAX/1);
+            if (has_edge < density){
+                g[i * v + j] = weight;
+                edge_count += 1;
+            }
+            else{
+                g[i * v + j] = FLT_MAX;
+            }
+        }
+    }
+    return edge_count;
+}
+
     
