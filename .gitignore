@@ -51,5 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# txt data
+# data
 apps/data/*.txt
+apps/data/mcp_input/*
+apps/aplp/baseline/others.bak
