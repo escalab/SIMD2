@@ -178,7 +178,7 @@ int main(int argc, char *argv[]){
     cublasDestroy(cublasHandle);
     free(adj_mat);
     free(mst_tensor);
-    printf("%f\n",rt/NUM_ITR);
+    printf("%f %d\n",rt/NUM_ITR, num_itrs);
     // printf("%d\n", num_iters);
     // printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;

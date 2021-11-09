@@ -32,11 +32,29 @@ int main(int argc, char *argv[]) {
     using namespace std::chrono;
 
     int v;
+    
     float density;
     float *adj_mat;
+    int edge_count;
 
     if (!strcmp(argv[1], "-f")){
-        // add I/O
+        // int edge_count;
+        int v1, v2;// value;
+        int value;
+        std::cin >> v >> edge_count;
+        adj_mat = (float*)malloc(v * v * sizeof(float));
+        for (int i = 0; i < v*v; i++){
+            adj_mat[i] = FLT_MAX;
+        }
+        for (int i=0; i < edge_count; ++i) {
+            std::cin >> v1 >> v2 >> value;
+            adj_mat[v1 * v + v2] = value;
+        }
+        for (int i=0; i < v; ++i) {
+            adj_mat[i*v+i] = 0;
+        }
+        // edge_count = e;
+        // std::cout << v << " " << edge_count << "\n";
     }
     else{
         v = atoi(argv[1]);
@@ -46,10 +64,11 @@ int main(int argc, char *argv[]) {
             exit(0);
         }
         adj_mat = (float*)malloc(v * v * sizeof(float));
+        edge_count = rgg_1d_directed(adj_mat, v, density, 10, 7);
     }
-    int edge_count = rgg_1d_directed(adj_mat, v, density, 10, 7);
+    
 
-    std::cout << "edge_count: " << edge_count << "\n";
+    // std::cout << "edge_count: " << edge_count << "\n";
 
     // print_matrix<float>(adj_mat,v,v);
 
@@ -152,10 +171,12 @@ int main(int argc, char *argv[]) {
             CHECK(cuBool_Matrix_Nvals(TC, &current));
             itr_count ++;
         }
+        // std::cout << "  Per-round itr " << itr_count << "\n";
 
         auto end    = high_resolution_clock::now();
         auto delta = duration_cast<nanoseconds>(end - start).count();
         rt += (double)delta / 1000000;
+        // std::cout << "Time: " << rt << "\n";
         
     }
 

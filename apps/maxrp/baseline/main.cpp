@@ -17,7 +17,7 @@
 using namespace std;
 using namespace std::chrono;
 
-#define NUM_ITR 1
+#define NUM_ITR 10
 
 /**
  * Print help for command line parameters
@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
     }
 
 
-    cout << rt/NUM_ITR << "\n";
+    cout << rt/(double)NUM_ITR << "\n";
     // printDataJson(graph, rt/NUM_ITR, -maxValue);
     return 0;
 }

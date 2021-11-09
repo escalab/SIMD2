@@ -9,7 +9,7 @@
 #include <chrono>
 #include <string.h>
 
-#define NUM_ITR 20
+#define NUM_ITR 5
 
 
 double gtc_kernel(int * tc, int v) {

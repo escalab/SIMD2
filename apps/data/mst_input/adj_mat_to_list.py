@@ -18,7 +18,7 @@ fp.write('WeightedEdgeArray')
 for i in range(v):
     for j in range(i,v):
         if random.uniform(0,1) < density:
-            w = random.uniform(0.1,100)
+            w = random.uniform(0.1,10000)
             fp.write('\n'+str(i) + ' ' + str(j) + ' ' + str(w))
             fp.write('\n'+str(j) + ' ' + str(i) + ' ' + str(w)) 
 fp.close()

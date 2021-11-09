@@ -9,7 +9,7 @@
 #include <float.h>
 #include <chrono>
 
-#define NUM_ITR 20
+#define NUM_ITR 10
 
 double aplp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
     cublasDestroy(cublasHandle);
     free(adj_mat);
     free(dist_tensor);
-    printf("%f\n",rt/(double)NUM_ITR);
+    printf("%f %d\n",rt/(double)NUM_ITR, num_itrs);
     // printf("%d\n", num_itrs);
     // printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;

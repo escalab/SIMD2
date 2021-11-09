@@ -9,7 +9,7 @@
 #include <float.h>
 #include <chrono>
 
-#define NUM_ITR 1
+#define NUM_ITR 10
 
 
 
@@ -53,6 +53,10 @@ double aplp_kernel(float * adj_mat, float * dist, int v) {
         cudaDeviceSynchronize();
         // check convergence
         run = comp_update2(out_d, out_d_delta, check_d, check_h, v,v);
+
+        // cudaMemcpy(dist, out_d, v*v*sizeof(float), cudaMemcpyDeviceToHost);
+        // print_matrix<float>(dist, v, v);
+        // printf("\n");
     }
 
     cudaDeviceSynchronize();

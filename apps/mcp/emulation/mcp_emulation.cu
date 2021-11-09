@@ -155,7 +155,7 @@ int main(int argc, char *argv[]){
     cublasDestroy(cublasHandle);
     free(adj_mat);
     free(dist_tensor);
-    printf("%f\n",rt/(double)NUM_ITR);
+    printf("%f %d\n",rt/(double)NUM_ITR, num_itrs);
     // printf("%d\n", num_itrs);
     // printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;

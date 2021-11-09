@@ -11,8 +11,9 @@
 #include <time.h>
 #include <sys/time.h>
 #include "../../data/graph_gen.h"
+#include <string.h>
 
-#define NUM_ITR 20
+#define NUM_ITR 10
 
 int main(int argc, char *argv[]){
     int v;
@@ -21,17 +22,39 @@ int main(int argc, char *argv[]){
     float density;
     int i,j; // looper
     float ** g, **d;
-    float *adj_mat; // init adj_mat
-    if (argc < 4){
-        printf("Usage: ./apsp-cuda-v3 num_vertices density edge_weight\n");
-        printf("    number of edges = num_vertices * density\n");
-        printf("    max edge weight = edge_weight\n");
-        exit(0);
-    }
-    if (argv[1] == "-f"){
-        //TODO: add I/O support
+    
+    if (!strcmp(argv[1], "-f")){
+        int v1, v2;// value;
+        float value;
+        std::cin >> v >> e;
+        g = (float**)malloc(sizeof(float*) * v);
+        d = (float**)malloc(sizeof(float*) * v);
+        for(int i = 0; i < v; i++){
+            g[i] = (float*)malloc(sizeof(float*) * v);
+            d[i] = (float*)malloc(sizeof(float*) * v);
+        }
+        for (int i = 0; i < v; i++){
+            for (int j = 0 ; j< v; j++){
+                g[i][j] = FLT_MAX;
+            }
+        }
+
+        for (int i=0; i < e; ++i) {
+            std::cin >> v1 >> v2 >> value;
+            g[v1][v2] = value;
+        }
+        for (int i=0; i < v; ++i) {
+            g[i][i] = 0;
+        }
+        
     }
     else{
+        if (argc < 4){
+            printf("Usage: ./apsp-cuda-v3 num_vertices density edge_weight\n");
+            printf("    number of edges = num_vertices * density\n");
+            printf("    max edge weight = edge_weight\n");
+            exit(0);
+        }
         v = atoi(argv[1]);
         density = atof(argv[2]);
         if (density < 0 || density > 1){

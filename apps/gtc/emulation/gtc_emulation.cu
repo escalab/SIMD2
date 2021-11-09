@@ -109,18 +109,22 @@ int main(int argc, char *argv[]){
     float density;
     // int i,j; // looper
     float *adj_mat; // init adj_mat
+    int edge_count;
     
     if (!strcmp(argv[1], "-f")){
-        // printf("read from file\n");
-        v = 1 + count_from_pbbs(argv[2]);
-        // printf("num vertices: %d\n", v);
+        int e;
+        int v1, v2;// value;
+        float value;
+        std::cin >> v >> e;
         adj_mat = (float*)malloc(v * v * sizeof(float));
-        read_from_pbbs(argv[2],v,adj_mat);
-        int edge_count = 0;
         for (int i = 0; i < v*v; i++){
-            if (adj_mat[i] < FLT_MAX - 100) edge_count ++;
+            adj_mat[i] = FLT_MAX;
         }
-        // printf("num edges: %d\n", edge_count);
+        for (int i=0; i < e; ++i) {
+            std::cin >> v1 >> v2 >> value;
+            adj_mat[v1 * v + v2] = value;
+        }
+        edge_count = e;
 
     }
     else{
@@ -137,7 +141,7 @@ int main(int argc, char *argv[]){
         }
         // bound = atoi(argv[4]);
         adj_mat = (float*)malloc(v * v * sizeof(float));
-        int edge_count = rgg_1d_directed(adj_mat, v, density, 10, 7);
+        edge_count = rgg_1d_directed(adj_mat, v, density, 10, 7);
     }
   
     
@@ -179,7 +183,7 @@ int main(int argc, char *argv[]){
     cublasDestroy(cublasHandle);
     free(adj_mat);
     free(tc_tensor);
-    printf("%f\n",rt/NUM_ITR);
+    printf("%f %d\n",rt/NUM_ITR, num_itrs);
     // printf("%d\n", num_iters);
     // printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;

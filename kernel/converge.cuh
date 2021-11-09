@@ -34,6 +34,7 @@ __global__ void __comp_update2(float * prev, float * cur, int * check, int M, in
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     if (index < M*N){
         if(cur[index] > -1 && cur[index] < 1 ) cur[index] = -FLT_MAX;
+        // if((prev[index] - cur[index]) > 0){
         if(prev[index] != cur[index]){
             check[0] = 1;
         }

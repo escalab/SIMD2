@@ -61,3 +61,4 @@ apps/data/maxrp_input/*.txt
 apps/data/minrp_input/*.txt
 apps/data/aplp_input/*.txt
 apps/aplp/baseline/others.bak
+apps/data/rmat_data/*.txt
