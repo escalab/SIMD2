@@ -411,7 +411,7 @@ bool knn_mxu(const float * ref,
     const unsigned int size_of_int   = sizeof(int);
 
     struct timeval tic;
-    
+    cudaDeviceReset();
     // Return variables
     cudaError_t err0, err1, err2, err3, err4,err5;
 
@@ -447,10 +447,10 @@ bool knn_mxu(const float * ref,
 
     
     if (err0 != cudaSuccess || err1 != cudaSuccess || err2 != cudaSuccess || err3 != cudaSuccess || err4 != cudaSuccess || err5 != cudaSuccess) {
-        printf("ERROR: Memory allocation error\n");
+        printf("ERROR: Init Memory allocation error\n");
         cudaFree(ref_dev);
-        // cudaFree(ref_dev_half);
-        // cudaFree(query_dev_half);
+        cudaFree(ref_dev_half);
+        cudaFree(query_dev_half);
         cudaFree(query_dev);
         cudaFree(dist_dev);
         cudaFree(index_dev); ; 

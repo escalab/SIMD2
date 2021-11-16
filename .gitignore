@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# data
+apps/data/*.txt
+apps/data/mst_input/*.txt
+apps/data/mcp_input/*.txt
+apps/data/mcp_input/big
+apps/data/mcp_input/small
+apps/data/maxrp_input/*.txt
+apps/data/minrp_input/*.txt
+apps/data/aplp_input/*.txt
+apps/aplp/baseline/others.bak
+apps/data/rmat_data/*.txt

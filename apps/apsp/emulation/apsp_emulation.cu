@@ -9,7 +9,7 @@
 #include <float.h>
 #include <chrono>
 
-#define NUM_ITR 100
+#define NUM_ITR 20
 
 double apsp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -50,7 +50,7 @@ double apsp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cu
     cudaDeviceSynchronize();
     auto end    = high_resolution_clock::now();
     auto delta = duration_cast<nanoseconds>(end - start).count();
-    double rt = delta / 1000000;
+    double rt = (double)delta / 1000000;
 
     cudaFree(adj_mat_d);
     cudaFree(out_d_delta);
@@ -113,21 +113,37 @@ int apsp_itr(float * adj_mat, float * dist, int v) {
 
 int main(int argc, char *argv[]){
     int v;
+    int e;
     // int bound;
     float edge_weight;
     float density;
     // int i,j; // looper
     float *adj_mat; // init adj_mat
-    if (argc < 4){
-        printf("Usage: ./apsp-cuda-v3 num_vertices density edge_weight\n");
-        printf("    number of edges = num_vertices * density\n");
-        printf("    max edge weight = edge_weight\n");
-        exit(0);
-    }
-    if (argv[1] == "-f"){
+   
+    if (!strcmp(argv[1], "-f")){
+        int v1, v2;// value;
+        float value;
+        std::cin >> v >> e;
+        adj_mat = (float*)malloc(v * v * sizeof(float));
+        for (int i = 0; i < v*v; i++){
+            adj_mat[i] = FLT_MAX;
+        }
+        for (int i=0; i < e; ++i) {
+            std::cin >> v1 >> v2 >> value;
+            adj_mat[v1 * v + v2] = value;
+        }
+        for(int i = 0; i < v; i++){
+            adj_mat[i*v+i] = 0;
+        }
         // add I/O
     }
     else{
+        if (argc < 4){
+            printf("Usage: ./apsp-cuda-v3 num_vertices density edge_weight\n");
+            printf("    number of edges = num_vertices * density\n");
+            printf("    max edge weight = edge_weight\n");
+            exit(0);
+        }
         v = atoi(argv[1]);
         density = atof(argv[2]);
         if (density < 0 || density > 1){
@@ -137,13 +153,15 @@ int main(int argc, char *argv[]){
         edge_weight = atof(argv[3]);
         // bound = atoi(argv[4]);
         adj_mat = (float*)malloc(v * v * sizeof(float));
+        e = rgg_1d(adj_mat, v, density, edge_weight, 7);
     }
   
-    int edge_count = rgg_1d(adj_mat, v, density, edge_weight, 7);
+    
     float * dist_tensor;
     dist_tensor = (float*)calloc(v * v, sizeof(float));
     if (!dist_tensor){
         printf("failed to malloc dist_tensor\n");
+        printf("v = %d\n", v);
     }
 
 
@@ -166,8 +184,8 @@ int main(int argc, char *argv[]){
     cublasDestroy(cublasHandle);
     free(adj_mat);
     free(dist_tensor);
-    printf("%f\n",rt/NUM_ITR);
-    // printf("%d\n", num_iters);
+    printf("%f %d\n",rt/(double)NUM_ITR, num_itrs);
+    // printf("%d\n", num_itrs);
     // printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;
 }

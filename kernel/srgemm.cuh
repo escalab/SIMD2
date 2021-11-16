@@ -1,6 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <random>
+#include <float.h>
 
 #include "../cuASR/include/cuasr/gemm/device/default_srgemm_configuration.h"
 #include "../cuASR/include/cuasr/gemm/device/srgemm.h"
@@ -156,7 +157,7 @@ auto cuasr_maxplus_srsgemm(
   cudaStream_t stream = nullptr) -> int {
 // compile time configuration of this srgemm kernel using OperatorClass
   using OperatorClass    = cutlass::arch::OpClassSimt;
-  using SmArch           = cutlass::arch::Sm80;
+  using SmArch           = cutlass::arch::Sm50;
 
   using AdditionOp       = cuasr::maximum<float>;
   using MultiplicationOp = cuasr::plus<float>;
@@ -176,12 +177,17 @@ auto cuasr_maxplus_srsgemm(
       float             // element type of D
       >;
 
-  float alpha = MultiplicationOp::Identity;
-  // float beta = do_epilogue_min ? MultiplicationOp::Identity : MultiplicationOp::Annihilator;
-  // ** Note **
-  //  MultiplicationOp::Annihilator which should be -inf will cause unkown bug here, 
-  //  use small neg number to resolve the issue
-  float beta = do_epilogue_min ? MultiplicationOp::Identity : std::numeric_limits<float>::min();
+  // float alpha = MultiplicationOp::Identity;
+  // float beta = do_epilogue_min ? MultiplicationOp::Identity : std::numeric_limits<float>::min();
+
+  // float alpha =  -std::numeric_limits<float>::max();
+  float alpha = 0;
+  float beta = 0;
+  // float alpha = 0;
+  // float beta = do_epilogue_min ? 0 : std::numeric_limits<float>::min();
+  // float beta = do_epilogue_min ? -std::numeric_limits<float>::max() : std::numeric_limits<float>::min();
+  // float beta = std::numeric_limits<float>::min();
+
 
   // construct kernel arguments struct
   cuASR_SGEMM::Arguments args(

@@ -30,7 +30,7 @@
 
 #define MIN_MACRO(a,b) ( (a) < (b) ? (a) : (b) )
 
-#define NUM_ITR 5
+#define NUM_ITR 10
 
 /*
  * Max matrix size is N = 2^12 = 4096. 
@@ -430,6 +430,7 @@ unsigned int apsp_parallel_3(float** graph, float** dist, int N) {
     for (int i = 0; i < N; i++)
       gpuErrchk( cudaMemcpy(dist[i], dev_dist +i*N, N * sizeof (float),
                   cudaMemcpyDeviceToHost) );
+    gpuErrchk(cudaFree(dev_dist));
   }
   return tot_time;
 	// return (apsp_parallel_3_status::success);
