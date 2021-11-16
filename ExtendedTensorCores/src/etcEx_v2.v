@@ -6,7 +6,7 @@
  * Written by Hung-Wei Tseng, 6/9/2021
  */
  
-module etcEX#(parameter W = 16)
+module etcEX2#(parameter W = 16)
 (
  input clk,
  input [3:0] op,
@@ -17,17 +17,13 @@ integer i,j;
 reg [3:0][3:0][W-1:0] regA, regB;
 reg [3:0][3:0][W-1:0] regOut;
 wire [3:0][3:0][W-1:0] wireOut;
-wire [3:0][3:0][W-1:0] wireOutMinMul;
-wire [3:0][3:0][W-1:0] wireOutMinMax;
-wire [3:0][3:0][W-1:0] wireOutMaxMul;
-wire [3:0][3:0][W-1:0] wireOutMaxMin;
-wire [3:0][3:0][W-1:0] wireOutMaxPlus;
+wire [3:0][3:0][W-1:0] wireOutMax;
 wire [3:0][3:0][W-1:0] wireOutAPSP;
 wire [3:0][3:0][W-1:0] wireOutL2D;
 wire [3:0][3:0][W-1:0] wireOutOrAnd;
 reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg032, reg120, reg121, reg122, reg130, reg131, reg132, reg230, reg231, reg232;
 // Logic for MinPlus/MinMul
-/*
+
     minEX m00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOut[0][0], op[0]); 
     minEX m01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], regA[0][1], wireOut[0][1], op[0]); 
     minEX m02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], regA[0][2], wireOut[0][2], op[0]); 
@@ -44,43 +40,7 @@ reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg0
     minEX m31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], regA[3][1], wireOut[3][1], op[0]); 
     minEX m32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], regA[3][2], wireOut[3][2], op[0]); 
     minEX m33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOut[3][3], op[0]); 
-*/
-// Logic for MinMax
-    minMax minmax00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOutMinMax[0][0]); 
-    minMax minmax01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], regA[0][1], wireOutMinMax[0][1]); 
-    minMax minmax02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], regA[0][2], wireOutMinMax[0][2]); 
-    minMax minmax03(regA[0][0] , regB[0][3] , regA[0][1] , regB[1][3] , regA[0][2] , regB[2][3] , regA[0][3] , regB[3][3], regA[0][3], wireOutMinMax[0][3]); 
-    minMax minmax10(regA[1][0] , regB[0][0] , regA[1][1] , regB[1][0] , regA[1][2] , regB[2][0] , regA[1][3] , regB[3][0], regA[1][0], wireOutMinMax[1][0]); 
-    minMax minmax11(regA[1][0] , regB[0][1] , regA[1][1] , regB[1][1] , regA[1][2] , regB[2][1] , regA[1][3] , regB[3][1], regA[1][1], wireOutMinMax[1][1]); 
-    minMax minmax12(regA[1][0] , regB[0][2] , regA[1][1] , regB[1][2] , regA[1][2] , regB[2][2] , regA[1][3] , regB[3][2], regA[1][2], wireOutMinMax[1][2]); 
-    minMax minmax13(regA[1][0] , regB[0][3] , regA[1][1] , regB[1][3] , regA[1][2] , regB[2][3] , regA[1][3] , regB[3][3], regA[1][3], wireOutMinMax[1][3]); 
-    minMax minmax20(regA[2][0] , regB[0][0] , regA[2][1] , regB[1][0] , regA[2][2] , regB[2][0] , regA[2][3] , regB[3][0], regA[2][0], wireOutMinMax[2][0]); 
-    minMax minmax21(regA[2][0] , regB[0][1] , regA[2][1] , regB[1][1] , regA[2][2] , regB[2][1] , regA[2][3] , regB[3][1], regA[2][1], wireOutMinMax[2][1]); 
-    minMax minmax22(regA[2][0] , regB[0][2] , regA[2][1] , regB[1][2] , regA[2][2] , regB[2][2] , regA[2][3] , regB[3][2], regA[2][2], wireOutMinMax[2][2]); 
-    minMax minmax23(regA[2][0] , regB[0][3] , regA[2][1] , regB[1][3] , regA[2][2] , regB[2][3] , regA[2][3] , regB[3][3], regA[2][3], wireOutMinMax[2][3]); 
-    minMax minmax30(regA[3][0] , regB[0][0] , regA[3][1] , regB[1][0] , regA[3][2] , regB[2][0] , regA[3][3] , regB[3][0], regA[3][0], wireOutMinMax[3][0]); 
-    minMax minmax31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], regA[3][1], wireOutMinMax[3][1]); 
-    minMax minmax32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], regA[3][2], wireOutMinMax[3][2]); 
-    minMax minmax33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOutMinMax[3][3]); 
-
-// Logic for MaxMin
-    maxMin maxmin00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOutMaxMin[0][0]); 
-    maxMin maxmin01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], regA[0][1], wireOutMaxMin[0][1]); 
-    maxMin maxmin02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], regA[0][2], wireOutMaxMin[0][2]); 
-    maxMin maxmin03(regA[0][0] , regB[0][3] , regA[0][1] , regB[1][3] , regA[0][2] , regB[2][3] , regA[0][3] , regB[3][3], regA[0][3], wireOutMaxMin[0][3]); 
-    maxMin maxmin10(regA[1][0] , regB[0][0] , regA[1][1] , regB[1][0] , regA[1][2] , regB[2][0] , regA[1][3] , regB[3][0], regA[1][0], wireOutMaxMin[1][0]); 
-    maxMin maxmin11(regA[1][0] , regB[0][1] , regA[1][1] , regB[1][1] , regA[1][2] , regB[2][1] , regA[1][3] , regB[3][1], regA[1][1], wireOutMaxMin[1][1]); 
-    maxMin maxmin12(regA[1][0] , regB[0][2] , regA[1][1] , regB[1][2] , regA[1][2] , regB[2][2] , regA[1][3] , regB[3][2], regA[1][2], wireOutMaxMin[1][2]); 
-    maxMin maxmin13(regA[1][0] , regB[0][3] , regA[1][1] , regB[1][3] , regA[1][2] , regB[2][3] , regA[1][3] , regB[3][3], regA[1][3], wireOutMaxMin[1][3]); 
-    maxMin maxmin20(regA[2][0] , regB[0][0] , regA[2][1] , regB[1][0] , regA[2][2] , regB[2][0] , regA[2][3] , regB[3][0], regA[2][0], wireOutMaxMin[2][0]); 
-    maxMin maxmin21(regA[2][0] , regB[0][1] , regA[2][1] , regB[1][1] , regA[2][2] , regB[2][1] , regA[2][3] , regB[3][1], regA[2][1], wireOutMaxMin[2][1]); 
-    maxMin maxmin22(regA[2][0] , regB[0][2] , regA[2][1] , regB[1][2] , regA[2][2] , regB[2][2] , regA[2][3] , regB[3][2], regA[2][2], wireOutMaxMin[2][2]); 
-    maxMin maxmin23(regA[2][0] , regB[0][3] , regA[2][1] , regB[1][3] , regA[2][2] , regB[2][3] , regA[2][3] , regB[3][3], regA[2][3], wireOutMaxMin[2][3]); 
-    maxMin maxmin30(regA[3][0] , regB[0][0] , regA[3][1] , regB[1][0] , regA[3][2] , regB[2][0] , regA[3][3] , regB[3][0], regA[3][0], wireOutMaxMin[3][0]); 
-    maxMin maxmin31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], regA[3][1], wireOutMaxMin[3][1]); 
-    maxMin maxmin32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], regA[3][2], wireOutMaxMin[3][2]); 
-    maxMin maxmin33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOutMaxMin[3][3]); 
-
+/*
 // Logic for MinPlus
     min m00(regA[0][0] + regB[0][0] , regA[0][1] + regB[1][0],  regA[0][2] + regB[2][0] , regA[0][3] + regB[3][0], regA[0][0], wireOut[0][0]); 
     min m01(regA[0][0] + regB[0][1] , regA[0][1] + regB[1][1] , regA[0][2] + regB[2][1] , regA[0][3] + regB[3][1], regA[0][1], wireOut[0][1]); 
@@ -115,6 +75,7 @@ reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg0
     min minmul31(regA[3][0] * regB[0][1] , regA[3][1] * regB[1][1] , regA[3][2] * regB[2][1] , regA[3][3] * regB[3][1], regA[3][1], wireOutMinMul[3][1]); 
     min minmul32(regA[3][0] * regB[0][2] , regA[3][1] * regB[1][2] , regA[3][2] * regB[2][2] , regA[3][3] * regB[3][2], regA[3][2], wireOutMinMul[3][2]); 
     min minmul33(regA[3][0] * regB[0][3] , regA[3][1] * regB[1][3] , regA[3][2] * regB[2][3] , regA[3][3] * regB[3][3], regA[3][3], wireOutMinMul[3][3]); 
+*/
 /*
     maxEX max00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOutMax[0][0], op[0]); 
     maxEX max01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], regA[0][1], wireOutMax[0][1], op[0]); 
