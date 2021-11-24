@@ -1,9 +1,6 @@
 `timescale 1ns / 1ps
 /*
  * Extended Tensor Cores
- * University of California, Riverside
- * 
- * Written by Hung-Wei Tseng, 6/9/2021
  */
  
 module etcEX#(parameter W = 16)
@@ -22,7 +19,8 @@ wire [3:0][3:0][W-1:0] wireOutMinMax;
 wire [3:0][3:0][W-1:0] wireOutMaxMul;
 wire [3:0][3:0][W-1:0] wireOutMaxMin;
 wire [3:0][3:0][W-1:0] wireOutMaxPlus;
-wire [3:0][3:0][W-1:0] wireOutAPSP;
+wire [3:0][3:0][W-1:0] wireOutMinPlus;
+//wire [3:0][3:0][W-1:0] wireOutAPSP;
 wire [3:0][3:0][W-1:0] wireOutL2D;
 wire [3:0][3:0][W-1:0] wireOutOrAnd;
 reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg032, reg120, reg121, reg122, reg130, reg131, reg132, reg230, reg231, reg232;
@@ -82,22 +80,22 @@ reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg0
     maxMin maxmin33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOutMaxMin[3][3]); 
 
 // Logic for MinPlus
-    min m00(regA[0][0] + regB[0][0] , regA[0][1] + regB[1][0],  regA[0][2] + regB[2][0] , regA[0][3] + regB[3][0], regA[0][0], wireOut[0][0]); 
-    min m01(regA[0][0] + regB[0][1] , regA[0][1] + regB[1][1] , regA[0][2] + regB[2][1] , regA[0][3] + regB[3][1], regA[0][1], wireOut[0][1]); 
-    min m02(regA[0][0] + regB[0][2] , regA[0][1] + regB[1][2] , regA[0][2] + regB[2][2] , regA[0][3] + regB[3][2], regA[0][2], wireOut[0][2]); 
-    min m03(regA[0][0] + regB[0][3] , regA[0][1] + regB[1][3] , regA[0][2] + regB[2][3] , regA[0][3] + regB[3][3], regA[0][3], wireOut[0][3]); 
-    min m10(regA[1][0] + regB[0][0] , regA[1][1] + regB[1][0] , regA[1][2] + regB[2][0] , regA[1][3] + regB[3][0], regA[1][0], wireOut[1][0]); 
-    min m11(regA[1][0] + regB[0][1] , regA[1][1] + regB[1][1] , regA[1][2] + regB[2][1] , regA[1][3] + regB[3][1], regA[1][1], wireOut[1][1]); 
-    min m12(regA[1][0] + regB[0][2] , regA[1][1] + regB[1][2] , regA[1][2] + regB[2][2] , regA[1][3] + regB[3][2], regA[1][2], wireOut[1][2]); 
-    min m13(regA[1][0] + regB[0][3] , regA[1][1] + regB[1][3] , regA[1][2] + regB[2][3] , regA[1][3] + regB[3][3], regA[1][3], wireOut[1][3]); 
-    min m20(regA[2][0] + regB[0][0] , regA[2][1] + regB[1][0] , regA[2][2] + regB[2][0] , regA[2][3] + regB[3][0], regA[2][0], wireOut[2][0]); 
-    min m21(regA[2][0] + regB[0][1] , regA[2][1] + regB[1][1] , regA[2][2] + regB[2][1] , regA[2][3] + regB[3][1], regA[2][1], wireOut[2][1]); 
-    min m22(regA[2][0] + regB[0][2] , regA[2][1] + regB[1][2] , regA[2][2] + regB[2][2] , regA[2][3] + regB[3][2], regA[2][2], wireOut[2][2]); 
-    min m23(regA[2][0] + regB[0][3] , regA[2][1] + regB[1][3] , regA[2][2] + regB[2][3] , regA[2][3] + regB[3][3], regA[2][3], wireOut[2][3]); 
-    min m30(regA[3][0] + regB[0][0] , regA[3][1] + regB[1][0] , regA[3][2] + regB[2][0] , regA[3][3] + regB[3][0], regA[3][0], wireOut[3][0]); 
-    min m31(regA[3][0] + regB[0][1] , regA[3][1] + regB[1][1] , regA[3][2] + regB[2][1] , regA[3][3] + regB[3][1], regA[3][1], wireOut[3][1]); 
-    min m32(regA[3][0] + regB[0][2] , regA[3][1] + regB[1][2] , regA[3][2] + regB[2][2] , regA[3][3] + regB[3][2], regA[3][2], wireOut[3][2]); 
-    min m33(regA[3][0] + regB[0][3] , regA[3][1] + regB[1][3] , regA[3][2] + regB[2][3] , regA[3][3] + regB[3][3], regA[3][3], wireOut[3][3]); 
+    min m00(regA[0][0] + regB[0][0] , regA[0][1] + regB[1][0],  regA[0][2] + regB[2][0] , regA[0][3] + regB[3][0], regA[0][0], wireOutMinPlus[0][0]); 
+    min m01(regA[0][0] + regB[0][1] , regA[0][1] + regB[1][1] , regA[0][2] + regB[2][1] , regA[0][3] + regB[3][1], regA[0][1], wireOutMinPlus[0][1]); 
+    min m02(regA[0][0] + regB[0][2] , regA[0][1] + regB[1][2] , regA[0][2] + regB[2][2] , regA[0][3] + regB[3][2], regA[0][2], wireOutMinPlus[0][2]); 
+    min m03(regA[0][0] + regB[0][3] , regA[0][1] + regB[1][3] , regA[0][2] + regB[2][3] , regA[0][3] + regB[3][3], regA[0][3], wireOutMinPlus[0][3]); 
+    min m10(regA[1][0] + regB[0][0] , regA[1][1] + regB[1][0] , regA[1][2] + regB[2][0] , regA[1][3] + regB[3][0], regA[1][0], wireOutMinPlus[1][0]); 
+    min m11(regA[1][0] + regB[0][1] , regA[1][1] + regB[1][1] , regA[1][2] + regB[2][1] , regA[1][3] + regB[3][1], regA[1][1], wireOutMinPlus[1][1]); 
+    min m12(regA[1][0] + regB[0][2] , regA[1][1] + regB[1][2] , regA[1][2] + regB[2][2] , regA[1][3] + regB[3][2], regA[1][2], wireOutMinPlus[1][2]); 
+    min m13(regA[1][0] + regB[0][3] , regA[1][1] + regB[1][3] , regA[1][2] + regB[2][3] , regA[1][3] + regB[3][3], regA[1][3], wireOutMinPlus[1][3]); 
+    min m20(regA[2][0] + regB[0][0] , regA[2][1] + regB[1][0] , regA[2][2] + regB[2][0] , regA[2][3] + regB[3][0], regA[2][0], wireOutMinPlus[2][0]); 
+    min m21(regA[2][0] + regB[0][1] , regA[2][1] + regB[1][1] , regA[2][2] + regB[2][1] , regA[2][3] + regB[3][1], regA[2][1], wireOutMinPlus[2][1]); 
+    min m22(regA[2][0] + regB[0][2] , regA[2][1] + regB[1][2] , regA[2][2] + regB[2][2] , regA[2][3] + regB[3][2], regA[2][2], wireOutMinPlus[2][2]); 
+    min m23(regA[2][0] + regB[0][3] , regA[2][1] + regB[1][3] , regA[2][2] + regB[2][3] , regA[2][3] + regB[3][3], regA[2][3], wireOutMinPlus[2][3]); 
+    min m30(regA[3][0] + regB[0][0] , regA[3][1] + regB[1][0] , regA[3][2] + regB[2][0] , regA[3][3] + regB[3][0], regA[3][0], wireOutMinPlus[3][0]); 
+    min m31(regA[3][0] + regB[0][1] , regA[3][1] + regB[1][1] , regA[3][2] + regB[2][1] , regA[3][3] + regB[3][1], regA[3][1], wireOutMinPlus[3][1]); 
+    min m32(regA[3][0] + regB[0][2] , regA[3][1] + regB[1][2] , regA[3][2] + regB[2][2] , regA[3][3] + regB[3][2], regA[3][2], wireOutMinPlus[3][2]); 
+    min m33(regA[3][0] + regB[0][3] , regA[3][1] + regB[1][3] , regA[3][2] + regB[2][3] , regA[3][3] + regB[3][3], regA[3][3], wireOutMinPlus[3][3]); 
 // Logic for MinMul
     min minmul00(regA[0][0] * regB[0][0] , regA[0][1] * regB[1][0],  regA[0][2] * regB[2][0] , regA[0][3] * regB[3][0], regA[0][0], wireOutMinMul[0][0]); 
     min minmul01(regA[0][0] * regB[0][1] , regA[0][1] * regB[1][1] , regA[0][2] * regB[2][1] , regA[0][3] * regB[3][1], regA[0][1], wireOutMinMul[0][1]); 
@@ -426,6 +424,24 @@ begin
     regOut[3][3] <= wireOutOrAnd[3][3];
     end
     else begin
+    regOut[0][0] <= wireOutMinPlus[0][0];
+    regOut[0][1] <= wireOutMinPlus[0][1];
+    regOut[0][2] <= wireOutMinPlus[0][2];
+    regOut[0][3] <= wireOutMinPlus[0][3];
+    regOut[1][0] <= wireOutMinPlus[1][0];
+    regOut[1][1] <= wireOutMinPlus[1][1];
+    regOut[1][2] <= wireOutMinPlus[1][2];
+    regOut[1][3] <= wireOutMinPlus[1][3];
+    regOut[2][0] <= wireOutMinPlus[2][0];
+    regOut[2][1] <= wireOutMinPlus[2][1];
+    regOut[2][2] <= wireOutMinPlus[2][2];
+    regOut[2][3] <= wireOutMinPlus[2][3];
+    regOut[3][0] <= wireOutMinPlus[3][0];
+    regOut[3][1] <= wireOutMinPlus[3][1];
+    regOut[3][2] <= wireOutMinPlus[3][2];
+    regOut[3][3] <= wireOutMinPlus[3][3];
+    end
+/*    else begin
     regOut[0][0] <= wireOutAPSP[0][0];
     regOut[0][1] <= wireOutAPSP[0][1];
     regOut[0][2] <= wireOutAPSP[0][2];
@@ -444,6 +460,7 @@ begin
     regOut[3][3] <= wireOutAPSP[3][3];
         
     end
+*/
 end
 
 endmodule
