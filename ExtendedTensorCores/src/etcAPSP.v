@@ -1,9 +1,6 @@
 `timescale 1ns / 1ps
 /*
  * Extended Tensor Cores
- * University of California, Riverside
- * 
- * Written by Hung-Wei Tseng, 6/9/2021
  */
  
 module etcAPSP#(parameter W = 16)
