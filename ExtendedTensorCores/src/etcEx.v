@@ -44,7 +44,7 @@ reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg0
     minEX m33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOut[3][3], op[0]); 
 */
 // Logic for MinMax
-    minMax minmax00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOutMinMax[0][0]); 
+/*    minMax minmax00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOutMinMax[0][0]); 
     minMax minmax01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], regA[0][1], wireOutMinMax[0][1]); 
     minMax minmax02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], regA[0][2], wireOutMinMax[0][2]); 
     minMax minmax03(regA[0][0] , regB[0][3] , regA[0][1] , regB[1][3] , regA[0][2] , regB[2][3] , regA[0][3] , regB[3][3], regA[0][3], wireOutMinMax[0][3]); 
@@ -60,8 +60,26 @@ reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg0
     minMax minmax31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], regA[3][1], wireOutMinMax[3][1]); 
     minMax minmax32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], regA[3][2], wireOutMinMax[3][2]); 
     minMax minmax33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOutMinMax[3][3]); 
+*/
+    minMax2 minmax00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], wireOutMinMax[0][0]); 
+    minMax2 minmax01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], wireOutMinMax[0][1]); 
+    minMax2 minmax02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], wireOutMinMax[0][2]); 
+    minMax2 minmax03(regA[0][0] , regB[0][3] , regA[0][1] , regB[1][3] , regA[0][2] , regB[2][3] , regA[0][3] , regB[3][3], wireOutMinMax[0][3]); 
+    minMax2 minmax10(regA[1][0] , regB[0][0] , regA[1][1] , regB[1][0] , regA[1][2] , regB[2][0] , regA[1][3] , regB[3][0], wireOutMinMax[1][0]); 
+    minMax2 minmax11(regA[1][0] , regB[0][1] , regA[1][1] , regB[1][1] , regA[1][2] , regB[2][1] , regA[1][3] , regB[3][1], wireOutMinMax[1][1]); 
+    minMax2 minmax12(regA[1][0] , regB[0][2] , regA[1][1] , regB[1][2] , regA[1][2] , regB[2][2] , regA[1][3] , regB[3][2], wireOutMinMax[1][2]); 
+    minMax2 minmax13(regA[1][0] , regB[0][3] , regA[1][1] , regB[1][3] , regA[1][2] , regB[2][3] , regA[1][3] , regB[3][3], wireOutMinMax[1][3]); 
+    minMax2 minmax20(regA[2][0] , regB[0][0] , regA[2][1] , regB[1][0] , regA[2][2] , regB[2][0] , regA[2][3] , regB[3][0], wireOutMinMax[2][0]); 
+    minMax2 minmax21(regA[2][0] , regB[0][1] , regA[2][1] , regB[1][1] , regA[2][2] , regB[2][1] , regA[2][3] , regB[3][1], wireOutMinMax[2][1]); 
+    minMax2 minmax22(regA[2][0] , regB[0][2] , regA[2][1] , regB[1][2] , regA[2][2] , regB[2][2] , regA[2][3] , regB[3][2], wireOutMinMax[2][2]); 
+    minMax2 minmax23(regA[2][0] , regB[0][3] , regA[2][1] , regB[1][3] , regA[2][2] , regB[2][3] , regA[2][3] , regB[3][3], wireOutMinMax[2][3]); 
+    minMax2 minmax30(regA[3][0] , regB[0][0] , regA[3][1] , regB[1][0] , regA[3][2] , regB[2][0] , regA[3][3] , regB[3][0], wireOutMinMax[3][0]); 
+    minMax2 minmax31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], wireOutMinMax[3][1]); 
+    minMax2 minmax32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], wireOutMinMax[3][2]); 
+    minMax2 minmax33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], wireOutMinMax[3][3]); 
 
 // Logic for MaxMin
+/*
     maxMin maxmin00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], regA[0][0], wireOutMaxMin[0][0]); 
     maxMin maxmin01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], regA[0][1], wireOutMaxMin[0][1]); 
     maxMin maxmin02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], regA[0][2], wireOutMaxMin[0][2]); 
@@ -78,6 +96,23 @@ reg [W-1:0] reg010, reg011, reg012, reg020, reg021, reg022, reg030, reg031, reg0
     maxMin maxmin31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], regA[3][1], wireOutMaxMin[3][1]); 
     maxMin maxmin32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], regA[3][2], wireOutMaxMin[3][2]); 
     maxMin maxmin33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], regA[3][3], wireOutMaxMin[3][3]); 
+*/
+    maxMin2 maxmin00(regA[0][0] , regB[0][0] , regA[0][1] , regB[1][0],  regA[0][2] , regB[2][0] , regA[0][3] , regB[3][0], wireOutMaxMin[0][0]); 
+    maxMin2 maxmin01(regA[0][0] , regB[0][1] , regA[0][1] , regB[1][1] , regA[0][2] , regB[2][1] , regA[0][3] , regB[3][1], wireOutMaxMin[0][1]); 
+    maxMin2 maxmin02(regA[0][0] , regB[0][2] , regA[0][1] , regB[1][2] , regA[0][2] , regB[2][2] , regA[0][3] , regB[3][2], wireOutMaxMin[0][2]); 
+    maxMin2 maxmin03(regA[0][0] , regB[0][3] , regA[0][1] , regB[1][3] , regA[0][2] , regB[2][3] , regA[0][3] , regB[3][3], wireOutMaxMin[0][3]); 
+    maxMin2 maxmin10(regA[1][0] , regB[0][0] , regA[1][1] , regB[1][0] , regA[1][2] , regB[2][0] , regA[1][3] , regB[3][0], wireOutMaxMin[1][0]); 
+    maxMin2 maxmin11(regA[1][0] , regB[0][1] , regA[1][1] , regB[1][1] , regA[1][2] , regB[2][1] , regA[1][3] , regB[3][1], wireOutMaxMin[1][1]); 
+    maxMin2 maxmin12(regA[1][0] , regB[0][2] , regA[1][1] , regB[1][2] , regA[1][2] , regB[2][2] , regA[1][3] , regB[3][2], wireOutMaxMin[1][2]); 
+    maxMin2 maxmin13(regA[1][0] , regB[0][3] , regA[1][1] , regB[1][3] , regA[1][2] , regB[2][3] , regA[1][3] , regB[3][3], wireOutMaxMin[1][3]); 
+    maxMin2 maxmin20(regA[2][0] , regB[0][0] , regA[2][1] , regB[1][0] , regA[2][2] , regB[2][0] , regA[2][3] , regB[3][0], wireOutMaxMin[2][0]); 
+    maxMin2 maxmin21(regA[2][0] , regB[0][1] , regA[2][1] , regB[1][1] , regA[2][2] , regB[2][1] , regA[2][3] , regB[3][1], wireOutMaxMin[2][1]); 
+    maxMin2 maxmin22(regA[2][0] , regB[0][2] , regA[2][1] , regB[1][2] , regA[2][2] , regB[2][2] , regA[2][3] , regB[3][2], wireOutMaxMin[2][2]); 
+    maxMin2 maxmin23(regA[2][0] , regB[0][3] , regA[2][1] , regB[1][3] , regA[2][2] , regB[2][3] , regA[2][3] , regB[3][3], wireOutMaxMin[2][3]); 
+    maxMin2 maxmin30(regA[3][0] , regB[0][0] , regA[3][1] , regB[1][0] , regA[3][2] , regB[2][0] , regA[3][3] , regB[3][0], wireOutMaxMin[3][0]); 
+    maxMin2 maxmin31(regA[3][0] , regB[0][1] , regA[3][1] , regB[1][1] , regA[3][2] , regB[2][1] , regA[3][3] , regB[3][1], wireOutMaxMin[3][1]); 
+    maxMin2 maxmin32(regA[3][0] , regB[0][2] , regA[3][1] , regB[1][2] , regA[3][2] , regB[2][2] , regA[3][3] , regB[3][2], wireOutMaxMin[3][2]); 
+    maxMin2 maxmin33(regA[3][0] , regB[0][3] , regA[3][1] , regB[1][3] , regA[3][2] , regB[2][3] , regA[3][3] , regB[3][3], wireOutMaxMin[3][3]); 
 
 // Logic for MinPlus
     min m00(regA[0][0] + regB[0][0] , regA[0][1] + regB[1][0],  regA[0][2] + regB[2][0] , regA[0][3] + regB[3][0], regA[0][0], wireOutMinPlus[0][0]); 
