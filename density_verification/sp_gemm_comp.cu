@@ -97,15 +97,32 @@ int main(){
     // srand(10);
     printf("init test...\n");
     // size
-    int size_begin = 24576;
-    int size_end = 24576;
+    int size_begin = 4096;
+    int size_end = 4096;
+    float s_list[8] = {500000, 750000, 900000, 950000, 975000, 990000, 995000, 999000};
+    
     // loop over all sizes
     for (int n = size_begin; n <= size_end; n += 1024){
+        
         // default sparsity
         printf("current size: %d\n", n);
-        float sparsity = 990000; // all elements are non-zero
+        float sparsity = 500000; // all elements are non-zero
+        float step = 1000;
+        // float sparsity = 980500; // all elements are non-zero
+        // float step = 1462;
         // loop over all sparsity
-        while (sparsity <= 990000){
+        int start;
+        if(n == 1024){
+            start = 0;
+        }
+        else if(n == 4096){
+            start = 3;
+        }
+        else {
+            start = 4;
+        }
+        for (int ind = start; ind < 8; ind ++){
+            sparsity = s_list[ind];
             cudaDeviceReset();
 #ifdef VERBOSE
             printf("size: %d X %d, sparsity: %f\n", n, n,sparsity/1000000);
@@ -176,8 +193,9 @@ int main(){
 
             // timing steps
             for(int i = 0; i < NUM_ITR; i++){
+                // cublasCreate(&cublasHandle);
                 retval = cublas_gemmEx(denseMat_fp16_d, denseMat_fp16_d, denseMat_d, denseMat_d, n, n, n, 1.0, 0.0, cublasHandle);
-                
+                // cublasDestroy(cublasHandle);
             }
             cudaDeviceSynchronize();
             gettimeofday(&te, NULL);
@@ -359,20 +377,24 @@ int main(){
             int f = 0;
             for(int i = 0; i < n; i++){
                 for(int j = 0; j < n; j++){
-                    if ( (abs(denseMat[i*n+j] - sparseMat[i*n+j]) / sparseMat[i*n+j]) > 0.05) {
+                    if ( (abs(denseMat[i*n+j] - sparseMat[i*n+j]) / denseMat[i*n+j]) > 0.05) {
                         f = 1;
                         break;
                     }
                 }
-                if(f) break;
+                if(f){
+                    break;
+                    printf("Result incorrect\n");
+                }
             }
+            // printf("Result correct!\n");
 #ifdef VERBOSE
             printf("GEMMEX TIME: %f ms\n", gemmEX_time*1000);
             printf("SPGEMM TIME: %f ms\n", spgemmEX_time*1000);
 #endif
 
 #ifdef SHEET
-            printf("%f %f\n", gemmEX_time*1000, spgemmEX_time*1000);
+            printf("%f %f %f\n", sparsity/1000000,gemmEX_time*1000, spgemmEX_time*1000);
 #endif
             // if(!f){
             //     printf("Test Passed\n");
@@ -382,7 +404,9 @@ int main(){
             // }
             
             // increase sparsity, free source matrix
-            sparsity += 1000;
+            // sparsity += step;
+            // step /= 1.3;
+            // step = fmax(step,100);
             free(denseMat);
         }
 
