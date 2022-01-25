@@ -246,10 +246,10 @@ void bench_case(int M, int N, int K, int s1, int s2, int s3){
 
 int main(){
   bench_case(1024, 1024, 1024, rand(), rand(), rand());
-  bench_case(2048, 2048, 2048, rand(), rand(), rand());
-  bench_case(4096, 4096, 4096, rand(), rand(), rand());
-  bench_case(8192, 8192, 8192, rand(), rand(), rand());
-  bench_case(16384, 16384, 16384, rand(), rand(), rand());
+  //bench_case(2048, 2048, 2048, rand(), rand(), rand());
+  //bench_case(4096, 4096, 4096, rand(), rand(), rand());
+ // bench_case(8192, 8192, 8192, rand(), rand(), rand());
+  //bench_case(16384, 16384, 16384, rand(), rand(), rand());
 
   //bench_case(2048, 1024, 512, rand(), rand(), rand());
   //bench_case(4096, 2048, 1024, rand(), rand(), rand());

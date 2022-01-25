@@ -21,7 +21,7 @@ module test_etc#(parameter W = 16);
    reg  [3:0][3:0][W-1:0] a_r;
    reg  [3:0][3:0][W-1:0] b_r;
    wire [3:0][3:0][W-1:0] sum;
-   reg [1:0] operation;
+   reg [3:0] operation;
    integer i;
 
    // The design under test is our adder
@@ -46,7 +46,7 @@ module test_etc#(parameter W = 16);
    // registers on the subsequent rising clock edge.
    initial
      begin
-        operation = 2'b00;
+        operation = 4'b0000;
         for(int i = 0; i < 4; i++) begin
             a_r[0][i] = 0;
             b_r[0][i] = 0;

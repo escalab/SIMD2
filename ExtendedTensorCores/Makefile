@@ -1,4 +1,5 @@
-SRC = src/*
+# SRC = src/*
+SRC := $(shell find src/ ! -name "etcEx_v2.v")
 VHDLEX = .v
 TESTBENCHFILE = tb/${TESTBENCH}$(VHDLEX)
 TESTBENCH = testbench
