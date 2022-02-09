@@ -24,6 +24,8 @@ host_srgemm_test: host_srgemm_test.cpp ../kernel/host_srgemm.h
 tensor_srgemm_test:	tensor_srgemm_test.cu ../kernel/host_srgemm.h ../kernel/tensor_srgemm.cuh
 	$(NVCC) -o  tensor_srgemm_test tensor_srgemm_test.cu $(NVCC_FLAGS) $(LD_FLAGS)
 
+mem_test: mem_sens_test.cu
+	$(NVCC) -o mem_sens_test mem_sens_test.cu
 clean:
 	rm cuAsr_kernel_test
 	rm host_srgemm_test

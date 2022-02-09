@@ -32,6 +32,7 @@ wire [3:0][3:0][W-1:0] wireOutAPSP;
     min m31(regA[3][0] + regB[0][1] , regA[3][1] + regB[1][1] , regA[3][2] + regB[2][1] , regA[3][3] + regB[3][1], regA[3][1], wireOutAPSP[3][1]); 
     min m32(regA[3][0] + regB[0][2] , regA[3][1] + regB[1][2] , regA[3][2] + regB[2][2] , regA[3][3] + regB[3][2], regA[3][2], wireOutAPSP[3][2]); 
     min m33(regA[3][0] + regB[0][3] , regA[3][1] + regB[1][3] , regA[3][2] + regB[2][3] , regA[3][3] + regB[3][3], regA[3][3], wireOutAPSP[3][3]); 
+// Logic for MAC
     assign wireOut[0][0] = regA[0][0] * regB[0][0] + regA[0][1] * regB[1][0] + regA[0][2] * regB[2][0] + regA[0][3] * regB[3][0];
     assign wireOut[0][1] = regA[0][0] * regB[0][1] + regA[0][1] * regB[1][1] + regA[0][2] * regB[2][1] + regA[0][3] * regB[3][1];
     assign wireOut[0][2] = regA[0][0] * regB[0][2] + regA[0][1] * regB[1][2] + regA[0][2] * regB[2][2] + regA[0][3] * regB[3][2];
@@ -124,7 +125,6 @@ begin
     regOut[3][1] <= wireOutAPSP[3][1];
     regOut[3][2] <= wireOutAPSP[3][2];
     regOut[3][3] <= wireOutAPSP[3][3];
-        
     end
 end
 /*

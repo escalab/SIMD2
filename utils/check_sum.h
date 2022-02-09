@@ -10,7 +10,7 @@ T check_sum(T* data, int n){
             valid_count += 1;
         }
     }
-    std::cout << valid_count << " entry valid\n";
+    // std::cout << valid_count << " entry valid\n";
     checksum = sqrt(checksum);
     return checksum;
 }

@@ -13,3 +13,4 @@ report_timing -path full -delay min -max_paths 10 > etcEX.holdtiming
 report_timing -path full -delay max -max_paths 10 > etcEX.setuptiming
 report_area -hierarchy > etcEX.area
 report_power -hier -hier_level 2 > etcEX.power
+exit
