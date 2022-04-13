@@ -10,7 +10,9 @@
 #include <float.h>
 #include <chrono>
 
-#define NUM_ITR 30
+#define NUM_ITR 20
+#define PERFORM
+#define WORST
 
 double mst_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -167,12 +169,16 @@ int main(int argc, char *argv[]){
     cublasCreate(&cublasHandle);
     mst_kernel(adj_mat,mst_tensor,v, num_itrs,cublasHandle);
 
+    #ifdef WORST
+    num_itrs = ceil(log2(v));
+    #endif
 
     double rt = 0.0;
+    #ifdef PERFORM
     for (int i = 0 ; i <  NUM_ITR; i++){
         rt += mst_kernel(adj_mat,mst_tensor,v, num_itrs,cublasHandle);
     }
-    
+    #endif
     
 
     cublasDestroy(cublasHandle);

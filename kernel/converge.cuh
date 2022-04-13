@@ -1,4 +1,3 @@
-
 /**
     Compares prev and cur, 
         racely set check[0] = 1 if any data is different.

@@ -2,11 +2,12 @@
 #include <iostream>
 #include <random>
 #include <float.h>
-
+#include <cuda_fp16.h>
 #include "../cuASR/include/cuasr/gemm/device/default_srgemm_configuration.h"
 #include "../cuASR/include/cuasr/gemm/device/srgemm.h"
 #include "../cuASR/include/cuasr/functional.h"
 #include "../cuASR/tools/include/cuasr/reference/srgemm/host_srgemm.h"
+#include "../cuASR/include/cuasr/reduction/thread/reduce.h"
 
 /**
   CuASR kernels supports all needed operators:
@@ -138,6 +139,7 @@ auto cuasr_plusmul_srsgemm(
   cutlass::Status status = srgemm(args, nullptr, stream);
   return static_cast<int>(status);
   }
+
 
 //*****************************************************************************
 //***************************    MAX_PLUS       *******************************

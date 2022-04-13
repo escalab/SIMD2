@@ -10,6 +10,8 @@
 #include <chrono>
 
 #define NUM_ITR 20
+#define PERFORM
+#define WORST
 
 double mcp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -92,7 +94,7 @@ int mcp_itr(float * adj_mat, float * dist, int v) {
         num_itr += 1;
         // 1 iteration of minplus srgemm
         int retval = cuasr_maxmin_srsgemm(v, v, v, \
-                                        adj_mat_d, v, \
+                                        out_d, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d_delta, \
@@ -143,12 +145,16 @@ int main(int argc, char *argv[]){
     cublasCreate(&cublasHandle);
     mcp_kernel(adj_mat,dist_tensor,v, num_itrs,cublasHandle);
 
+    #ifdef WORST
+    num_itrs = ceil(log2(v));
+    #endif
 
     double rt = 0.0;
+    #ifdef PERFORM
     for (int i = 0 ; i <  NUM_ITR; i++){
         rt += mcp_kernel(adj_mat,dist_tensor,v, num_itrs,cublasHandle);
     }
-    
+    #endif
     // float cs = check_sum<float>(dist_tensor, v*v);
     
 

@@ -64,7 +64,7 @@ double mst_kernel(float * adj_mat, float * dist, int v) {
     cudaFree(out_d);
     cudaFree(check_d);
     free(check_h);
-    // printf("num itr: %d\n", num_itr);
+    printf("num itr: %d\n", num_itr);
     return rt;
 }
 

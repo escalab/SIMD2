@@ -16,6 +16,12 @@ def run_apsp(f,version):
     res = subprocess.run(command, stdin = input_data, stdout=subprocess.PIPE).stdout.decode('utf-8')
     return res.split('\n')[0]
 
+def run_apsp_baseline(f):
+    input_data = open(str(f))
+    command = ['./../apps/apsp/ecl-apsp/ecl-apsp']
+    res = subprocess.run(command, stdin = input_data, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return res.split('\n')[0]
+
 def run_aplp(f,version):
     input_data = open(str(f))
     command = ['./../apps/aplp/'+version + '/aplp_'+version]
@@ -75,6 +81,15 @@ def run_mst(f,version):
         res = subprocess.run(command, stdout=subprocess.PIPE).stdout.decode('utf-8')
         return res.split('\n')[0]
 
+def run_cusparselt(itr,f):
+    input_data = open(str(f))
+    command = ['./../apps/emulation_sparse/emulation_sparse', str(itr)]
+    res = subprocess.run(command, stdin = input_data, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return res.split('\n')[0]
+
+def get_itr(res):
+    return int(res.split(' ')[-1])
+
 def main():
 
     # aplp
@@ -82,37 +97,66 @@ def main():
     aplp_baseline = run_aplp(data_dir+'DAG_rmat_4096.txt', 'baseline')
     aplp_cuAsr = run_aplp(data_dir+'DAG_rmat_4096.txt', 'cuASR')
     aplp_emulation = run_aplp(data_dir+'DAG_rmat_4096.txt', 'emulation')
-    print('APLP-Small:', 4096,aplp_baseline, aplp_cuAsr, aplp_emulation)
+    itr = get_itr(aplp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'DAG_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('APLP-Small:', 4096,aplp_baseline, aplp_cuAsr, aplp_emulation, sparse_total, sparse_kernel)
 
     aplp_baseline = run_aplp(data_dir+'DAG_rmat_8192.txt', 'baseline')
     aplp_cuAsr = run_aplp(data_dir+'DAG_rmat_8192.txt', 'cuASR')
     aplp_emulation = run_aplp(data_dir+'DAG_rmat_8192.txt', 'emulation')
-    print('APLP-Medium:', 8192,aplp_baseline, aplp_cuAsr, aplp_emulation)
+    itr = get_itr(aplp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'DAG_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('APLP-Medium:', 8192,aplp_baseline, aplp_cuAsr, aplp_emulation, sparse_total, sparse_kernel)
 
     aplp_baseline = run_aplp(data_dir+'DAG_rmat_16284.txt', 'baseline')
     aplp_cuAsr = run_aplp(data_dir+'DAG_rmat_16284.txt', 'cuASR')
     aplp_emulation = run_aplp(data_dir+'DAG_rmat_16284.txt', 'emulation')
-    print('APLP-Large:', 16384,aplp_baseline, aplp_cuAsr, aplp_emulation)
+    itr = get_itr(aplp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'DAG_rmat_16284.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('APLP-Large:', 16384,aplp_baseline, aplp_cuAsr, aplp_emulation, sparse_total, sparse_kernel)
 
     # mst
 
     data_dir = '../apps/data/mst_input/'
-
     mst_baseline = run_mst(data_dir+'mst_rmat_1024.txt','baseline')
     mst_cuAsr = run_mst(data_dir+'mst_rmat_1024.txt','cuASR')
     mst_emulation = run_mst(data_dir+'mst_rmat_1024.txt','emulation')
-    print('MST-Small:', 1024,mst_baseline, mst_cuAsr, mst_emulation)
+    itr = get_itr(mst_emulation)
+    emulation_sparse = run_cusparselt(itr, '../apps/data/rmat_data/parsed_rmat_1024.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MST-Small:', 1024,mst_baseline, mst_cuAsr, mst_emulation, sparse_total, sparse_kernel)
 
     mst_baseline = run_mst(data_dir+'mst_rmat_2048.txt','baseline')
     mst_cuAsr = run_mst(data_dir+'mst_rmat_2048.txt','cuASR')
     mst_emulation = run_mst(data_dir+'mst_rmat_2048.txt','emulation')
-    print('MST-Medium:', 2048,mst_baseline, mst_cuAsr, mst_emulation)
+    itr = get_itr(mst_emulation)
+    emulation_sparse = run_cusparselt(itr, '../apps/data/rmat_data/parsed_rmat_2048.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MST-Medium:', 2048,mst_baseline, mst_cuAsr, mst_emulation, sparse_total, sparse_kernel)
 
     
     mst_baseline = run_mst(data_dir+'mst_rmat_4096.txt','baseline')
     mst_cuAsr = run_mst(data_dir+'mst_rmat_4096.txt','cuASR')
     mst_emulation = run_mst(data_dir+'mst_rmat_4096.txt','emulation')
-    print('MST-Large:', 4096 ,mst_baseline, mst_cuAsr, mst_emulation)
+    itr = get_itr(mst_emulation)
+    emulation_sparse = run_cusparselt(itr, '../apps/data/rmat_data/parsed_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MST-Large:', 4096 ,mst_baseline, mst_cuAsr, mst_emulation, sparse_total, sparse_kernel)
     
     #maxrp
 
@@ -120,17 +164,32 @@ def main():
     maxrp_baseline = run_maxrp(data_dir+'maxrp_rmat_4096.txt', 'baseline')
     maxrp_cuAsr = run_maxrp(data_dir+'maxrp_rmat_4096.txt', 'cuASR')
     maxrp_emulation = run_maxrp(data_dir+'maxrp_rmat_4096.txt', 'emulation')
-    print('MAXRP-Small:', 4096,maxrp_baseline, maxrp_cuAsr, maxrp_emulation)
+    itr = get_itr(maxrp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'maxrp_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MAXRP-Small:', 4096,maxrp_baseline, maxrp_cuAsr, maxrp_emulation, sparse_total, sparse_kernel)
 
     maxrp_baseline = run_maxrp(data_dir+'maxrp_rmat_8192.txt', 'baseline')
     maxrp_cuAsr = run_maxrp(data_dir+'maxrp_rmat_8192.txt', 'cuASR')
     maxrp_emulation = run_maxrp(data_dir+'maxrp_rmat_8192.txt', 'emulation')
-    print('MAXRP-Medium:', 8192,maxrp_baseline, maxrp_cuAsr, maxrp_emulation)
+    itr = get_itr(maxrp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'maxrp_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MAXRP-Medium:', 8192,maxrp_baseline, maxrp_cuAsr, maxrp_emulation, sparse_total, sparse_kernel)
 
     maxrp_baseline = run_maxrp(data_dir+'maxrp_rmat_16384.txt', 'baseline')
     maxrp_cuAsr = run_maxrp(data_dir+'maxrp_rmat_16384.txt', 'cuASR')
     maxrp_emulation = run_maxrp(data_dir+'maxrp_rmat_16384.txt', 'emulation')
-    print('MAXRP-Large:', 16384,maxrp_baseline, maxrp_cuAsr, maxrp_emulation)
+    itr = get_itr(maxrp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'maxrp_rmat_16384.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MAXRP-Large:', 16384,maxrp_baseline, maxrp_cuAsr, maxrp_emulation, sparse_total, sparse_kernel)
 
     #minrp
 
@@ -138,68 +197,128 @@ def main():
     minrp_baseline = run_minrp(data_dir+'minrp_rmat_4096.txt', 'baseline')
     minrp_cuAsr = run_minrp(data_dir+'minrp_rmat_4096.txt', 'cuASR')
     minrp_emulation = run_minrp(data_dir+'minrp_rmat_4096.txt', 'emulation')
-    print('MINRP-Small:', 4096,minrp_baseline, minrp_cuAsr, minrp_emulation)
+    itr = get_itr(minrp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'minrp_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MINRP-Small:', 4096,minrp_baseline, minrp_cuAsr, minrp_emulation, sparse_total, sparse_kernel)
 
     minrp_baseline = run_minrp(data_dir+'minrp_rmat_8192.txt', 'baseline')
     minrp_cuAsr = run_minrp(data_dir+'minrp_rmat_8192.txt', 'cuASR')
     minrp_emulation = run_minrp(data_dir+'minrp_rmat_8192.txt', 'emulation')
-    print('MINRP-Medium:', 8192,minrp_baseline, minrp_cuAsr, minrp_emulation)
+    itr = get_itr(minrp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'minrp_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MINRP-Medium:', 8192,minrp_baseline, minrp_cuAsr, minrp_emulation, sparse_total, sparse_kernel)
 
     minrp_baseline = run_minrp(data_dir+'minrp_rmat_16384.txt', 'baseline')
     minrp_cuAsr = run_minrp(data_dir+'minrp_rmat_16384.txt', 'cuASR')
     minrp_emulation = run_minrp(data_dir+'minrp_rmat_16384.txt', 'emulation')
-    print('MINRP-Large:', 16384,minrp_baseline, minrp_cuAsr, minrp_emulation)
+    itr = get_itr(minrp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'minrp_rmat_16384.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MINRP-Large:', 16384,minrp_baseline, minrp_cuAsr, minrp_emulation, sparse_total, sparse_kernel)
     
     # mcp
     data_dir = '../apps/data/rmat_data/'
     mcp_baseline = run_mcp(data_dir+'parsed_rmat_4096.txt', 'baseline')
     mcp_cuAsr = run_mcp(data_dir+'parsed_rmat_4096.txt', 'cuASR')
     mcp_emulation = run_mcp(data_dir+'parsed_rmat_4096.txt', 'emulation')
-    print('MCP-Small:', 4096, mcp_baseline, mcp_cuAsr, mcp_emulation)
+    itr = get_itr(mcp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'parsed_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MCP-Small:', 4096, mcp_baseline, mcp_cuAsr, mcp_emulation, sparse_total, sparse_kernel)
 
     mcp_baseline = run_mcp(data_dir+'parsed_rmat_8192.txt', 'baseline')
     mcp_cuAsr = run_mcp(data_dir+'parsed_rmat_8192.txt', 'cuASR')
     mcp_emulation = run_mcp(data_dir+'parsed_rmat_8192.txt', 'emulation')
-    print('MCP-Medium:', 8192, mcp_baseline, mcp_cuAsr, mcp_emulation)
+    itr = get_itr(mcp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'parsed_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MCP-Medium:', 8192, mcp_baseline, mcp_cuAsr, mcp_emulation, sparse_total, sparse_kernel)
 
     mcp_baseline = run_mcp(data_dir+'parsed_rmat_16384.txt', 'baseline')
     mcp_cuAsr = run_mcp(data_dir+'parsed_rmat_16384.txt', 'cuASR')
     mcp_emulation = run_mcp(data_dir+'parsed_rmat_16384.txt', 'emulation')
-    print('MCP-Large:', 16384, mcp_baseline, mcp_cuAsr, mcp_emulation)
+    itr = get_itr(mcp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'parsed_rmat_16384.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('MCP-Large:', 16384, mcp_baseline, mcp_cuAsr, mcp_emulation, sparse_total, sparse_kernel)
 
     # gtc
     gtc_baseline = run_gtc(1024,0.0001, 'baseline')
     gtc_cuAsr = run_gtc(1024,0.0001, 'cuASR')
     gtc_emulation = run_gtc(1024,0.0001, 'emulation')
-    print('GTC-SMALL:', 1024,gtc_baseline, gtc_cuAsr, gtc_emulation)
+    itr = get_itr(gtc_emulation)
+    emulation_sparse = run_cusparselt(itr, '../apps/data/rmat_data/parsed_rmat_1024.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('GTC-SMALL:', 1024,gtc_baseline, gtc_cuAsr, gtc_emulation, sparse_total, sparse_kernel)
 
     gtc_baseline = run_gtc(4096,0.0001, 'baseline')
     gtc_cuAsr = run_gtc(4096,0.0001, 'cuASR')
     gtc_emulation = run_gtc(4096,0.0001, 'emulation')
-    print('GTC-Medium:', 4096 ,gtc_baseline, gtc_cuAsr, gtc_emulation)
+    itr = get_itr(gtc_emulation)
+    emulation_sparse = run_cusparselt(itr, '../apps/data/rmat_data/parsed_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('GTC-Medium:', 4096 ,gtc_baseline, gtc_cuAsr, gtc_emulation, sparse_total, sparse_kernel)
 
     gtc_baseline = run_gtc(8192,0.0001, 'baseline')
     gtc_cuAsr = run_gtc(8192,0.0001, 'cuASR')
     gtc_emulation = run_gtc(8192,0.0001, 'emulation')
-    print('GTC-Large:', 8192 ,gtc_baseline, gtc_cuAsr, gtc_emulation)
+    itr = get_itr(gtc_emulation)
+    emulation_sparse = run_cusparselt(itr, '../apps/data/rmat_data/parsed_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('GTC-Large:', 8192 ,gtc_baseline, gtc_cuAsr, gtc_emulation, sparse_total, sparse_kernel)
 
 
     # apsp
     data_dir = "../apps/data/rmat_data/"
-    apsp_baseline = run_apsp(data_dir+'parsed_rmat_4096.txt', 'baseline')
+    apsp_baseline = run_apsp_baseline(data_dir+'parsed_rmat_4096.txt')
     apsp_cuAsr = run_apsp(data_dir+'parsed_rmat_4096.txt', 'cuASR')
     apsp_emulation = run_apsp(data_dir+'parsed_rmat_4096.txt', 'emulation')
-    print('APSP-Small:', 4096,apsp_baseline, apsp_cuAsr, apsp_emulation)
+    itr = get_itr(apsp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'parsed_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('APSP-Small:', 4096,apsp_baseline, apsp_cuAsr, apsp_emulation, sparse_total, sparse_kernel)
 
-    apsp_baseline = run_apsp(data_dir+'parsed_rmat_8192.txt', 'baseline')
+    apsp_baseline = run_apsp_baseline(data_dir+'parsed_rmat_8192.txt')
     apsp_cuAsr = run_apsp(data_dir+'parsed_rmat_8192.txt', 'cuASR')
     apsp_emulation = run_apsp(data_dir+'parsed_rmat_8192.txt', 'emulation')
-    print('APSP-Medium:', 8192,apsp_baseline, apsp_cuAsr, apsp_emulation)
+    itr = get_itr(apsp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'parsed_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('APSP-Medium:', 8192,apsp_baseline, apsp_cuAsr, apsp_emulation, sparse_total, sparse_kernel)
 
-    apsp_baseline = run_apsp(data_dir+'parsed_rmat_16384.txt', 'baseline')
+    apsp_baseline = run_apsp_baseline(data_dir+'parsed_rmat_16384.txt')
     apsp_cuAsr = run_apsp(data_dir+'parsed_rmat_16384.txt', 'cuASR')
     apsp_emulation = run_apsp(data_dir+'parsed_rmat_16384.txt', 'emulation')
-    print('APSP-Large:', 16384,apsp_baseline, apsp_cuAsr, apsp_emulation)
+    itr = get_itr(apsp_emulation)
+    emulation_sparse = run_cusparselt(itr, data_dir+'parsed_rmat_16384.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('APSP-Large:', 16384,apsp_baseline, apsp_cuAsr, apsp_emulation, sparse_total, sparse_kernel)
 
  
 
@@ -208,17 +327,29 @@ def main():
     pld_baseline = run_pld_gen(4096,4096,4096,10,'baseline')
     pld_cuAsr = run_pld_gen(4096,4096,4096,10,'cuASR')
     pld_emulation = run_pld_gen(4096,4096,4096,10,'emulation')
-    print('KNN-SMALL:', 4096**2,pld_baseline, pld_cuAsr, pld_emulation)
+    emulation_sparse = run_cusparselt(1, data_dir+'parsed_rmat_4096.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('KNN-SMALL:', 4096**2,pld_baseline, pld_cuAsr, pld_emulation, sparse_total, sparse_kernel)
 
     pld_baseline = run_pld_gen(8192,8192,8192,10,'baseline')
     pld_cuAsr = run_pld_gen(8192,8192,8192,10,'cuASR')
     pld_emulation = run_pld_gen(8192,8192,8192,10,'emulation')
-    print('KNN-Medium:', 8192**2,pld_baseline, pld_cuAsr, pld_emulation)
+    emulation_sparse = run_cusparselt(1, data_dir+'parsed_rmat_8192.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('KNN-Medium:', 8192**2,pld_baseline, pld_cuAsr, pld_emulation, sparse_total, sparse_kernel)
 
     pld_baseline = run_pld_gen(16384,16384,16384,10,'baseline')
     pld_cuAsr = run_pld_gen(16384,16384,16384,10,'cuASR')
     pld_emulation = run_pld_gen(16384,16384,16384,10,'emulation')
-    print('KNN-Large:', 16384**2, pld_baseline, pld_cuAsr, pld_emulation)
+    emulation_sparse = run_cusparselt(1, data_dir+'parsed_rmat_16384.txt')
+    emulation_sparse = emulation_sparse.split(' ')
+    sparse_total = emulation_sparse[0]
+    sparse_kernel = emulation_sparse[1]
+    print('KNN-Large:', 16384**2, pld_baseline, pld_cuAsr, pld_emulation, sparse_total, sparse_kernel)
 
 
 

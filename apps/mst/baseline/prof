@@ -1,0 +1,8 @@
+ncu --metrics sm__pipe_tensor_cycles_active.sum,\
+sm__inst_executed_pipe_tensor.sum,\
+sm__inst_executed.sum,\
+sm__cycles_active.sum \
+--section SpeedOfLight \
+--csv \
+--log-file profile_result_mst_baseline.csv \
+./mst_baseline -r 1 ../../data/mst_input/mst_rmat_4096.txt

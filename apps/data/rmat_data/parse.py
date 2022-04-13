@@ -11,6 +11,7 @@ num_e = 0
 fo = open('parsed_'+rmat_file,'w')
 with open(rmat_file, 'r') as fi:
     lines = fi.readlines()
+    print(lines[0])
     num_v = int(lines[0].split(' ')[0])
     for line in lines[1:]:
         e = line.strip('\n').split('\t')

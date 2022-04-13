@@ -1,0 +1,8 @@
+ncu --metrics sm__pipe_tensor_cycles_active.avg,\
+sm__inst_executed_pipe_tensor.avg,\
+sm__inst_executed.avg,\
+sm__cycles_active.avg \
+--section SpeedOfLight \
+--csv \
+--log-file profile_result_microbench.csv \
+./srgemm_bench

@@ -1,5 +1,4 @@
 #include <cuda_fp16.h>
-
 /**
   Simple kernel wappers to convert precisioin
 */

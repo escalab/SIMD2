@@ -1,0 +1,14 @@
+ncu --metrics smsp__pipe_tensor_cycles_active.sum,\
+smsp__inst_executed_pipe_tensor.sum,\
+sm__pipe_tensor_cycles_active.sum,\
+sm__inst_executed_pipe_tensor.sum,\
+smsp__average_inst_executed_pipe_tensor_op_hmma_per_warp,\
+smsp__average_inst_executed_pipe_tensor_op_imma_per_warp,\
+sm__inst_executed.sum,\
+sm__sass_inst_executed.sum,\
+sm__sass_thread_inst_executed.sum,\
+smsp__average_inst_executed_per_warp.sum,\
+smsp__sass_inst_executed.sum,\
+sm__cycles_active \
+--section SpeedOfLight \
+./srgemm_bench

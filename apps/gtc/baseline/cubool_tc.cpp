@@ -22,7 +22,7 @@
 #include "../../data/graph_gen.h"
 #include "../../../utils/print_mat.h"
 
-#define NUM_ITR 10
+#define NUM_ITR 1
 
 /* Macro to check result of the function call */
 #define CHECK(f) { cuBool_Status s = f; if (s != CUBOOL_STATUS_SUCCESS) return s; }

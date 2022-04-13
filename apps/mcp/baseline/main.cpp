@@ -16,7 +16,7 @@
 using namespace std;
 using namespace std::chrono;
 
-#define NUM_ITR 10
+#define NUM_ITR 1
 
 /**
  * Print help for command line parameters

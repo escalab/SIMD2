@@ -11,6 +11,8 @@
 #include <chrono>
 
 #define NUM_ITR 20
+#define PERFORM
+#define WORST
 
 double gtc_kernel(float * adj_mat, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -173,11 +175,16 @@ int main(int argc, char *argv[]){
     gtc_kernel(adj_mat,v, num_itrs,cublasHandle);
 
 
+    #ifdef WORST
+    num_itrs = ceil(log2(v));
+    #endif
+    
     double rt = 0.0;
+    #ifdef PERFORM
     for (int i = 0 ; i <  NUM_ITR; i++){
         rt += gtc_kernel(adj_mat,v, num_itrs,cublasHandle);
     }
-    
+    #endif
     
 
     cublasDestroy(cublasHandle);

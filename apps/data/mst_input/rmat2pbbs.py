@@ -15,7 +15,7 @@ with open(rmat_file, 'r') as fi:
     lines = fi.readlines()
     num_v = int(lines[0].split(' ')[0])
     for line in lines[1:]:
-        e = line.strip('\n').split('\t')
+        e = line.strip('\n').split(' ')
         s = int(e[0])
         t = int(e[1])
         w = str(random.uniform(0, 100000))

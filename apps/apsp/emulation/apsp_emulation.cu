@@ -4,12 +4,17 @@
 #include "../../../kernel/converge.cuh"
 #include "../../../utils/check_sum.h"
 #include "../../data/graph_gen.h"
+
+#include <cuda_profiler_api.h>
+
 #include <sys/time.h>
 
 #include <float.h>
 #include <chrono>
 
 #define NUM_ITR 20
+#define PERFORM
+#define WORST
 
 double apsp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -45,7 +50,6 @@ double apsp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cu
     for(int i = 0; i < num_itrs; i ++){
         cublas_gemmEx(adj_mat_d_fp16, out_d_delta_fp16, out_d, out_d, v, v, v, 1.0, 1,cublasHandle);
         f2h_device(out_d_delta_fp16, out_d, v*v);
-        // cudaDeviceSynchronize();
     }
     cudaDeviceSynchronize();
     auto end    = high_resolution_clock::now();
@@ -92,7 +96,7 @@ int apsp_itr(float * adj_mat, float * dist, int v) {
         num_itr += 1;
         // 1 iteration of minplus srgemm
         int retval = cuasr_minplus_srsgemm(v, v, v, \
-                                        adj_mat_d, v, \
+                                        out_d, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d_delta, \
@@ -130,7 +134,7 @@ int main(int argc, char *argv[]){
         }
         for (int i=0; i < e; ++i) {
             std::cin >> v1 >> v2 >> value;
-            adj_mat[v1 * v + v2] = value;
+            adj_mat[v1 * v + v2] = (float)(int)value;
         }
         for(int i = 0; i < v; i++){
             adj_mat[i*v+i] = 0;
@@ -172,12 +176,16 @@ int main(int argc, char *argv[]){
     cublasCreate(&cublasHandle);
     apsp_kernel(adj_mat,dist_tensor,v, num_itrs,cublasHandle);
 
+    #ifdef WORST
+    num_itrs = ceil(log2(v));
+    #endif
 
     double rt = 0.0;
+    #ifdef PERFORM
     for (int i = 0 ; i <  NUM_ITR; i++){
         rt += apsp_kernel(adj_mat,dist_tensor,v, num_itrs,cublasHandle);
     }
-    
+    #endif
     // float cs = check_sum<float>(dist_tensor, v*v);
     
 
