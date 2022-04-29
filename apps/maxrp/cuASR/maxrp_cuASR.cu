@@ -46,7 +46,7 @@ double maxrp_kernel(float * adj_mat, float * dist, int v) {
         num_itr += 1;
         // 1 iteration of minplus srgemm
         int retval = cuasr_maxmul_srsgemm(v, v, v, \
-                                        adj_mat_d, v, \
+                                        out_d, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d_delta, \
@@ -62,7 +62,7 @@ double maxrp_kernel(float * adj_mat, float * dist, int v) {
     double rt = (double)delta / 1000000;
     cudaMemcpy(dist, out_d, v*v*sizeof(float), cudaMemcpyDeviceToHost);
 
-    // printf("num_itr: %d\n", num_itr);
+    printf("num_itr: %d\n", num_itr);
     cudaFree(adj_mat_d);
     cudaFree(out_d_delta);
     cudaFree(out_d);
@@ -103,13 +103,13 @@ int main(int argc, char *argv[]){
         rt += maxrp_kernel(adj_mat,dist_tensor,v);
     }
     
-    // float cs = check_sum<float>(dist_tensor, v*v);
+    float cs = check_sum<float>(dist_tensor, v*v);
     
     // print_matrix<float>(dist_tensor,v,v);
 
     free(adj_mat);
     free(dist_tensor);
     printf("%f\n",rt/NUM_ITR);
-    // printf("apsp_cuASR,    check-sum: %f\n",cs);
+    printf("apsp_cuASR,    check-sum: %f\n",cs);
     return 0;
 }

@@ -6,7 +6,7 @@
 __global__ void __comp_update(float * prev, float * cur, int * check, int M, int N){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     if (index < M*N){
-        if(prev[index] != cur[index]){
+        if(abs(prev[index] - cur[index]) > 0.0001){
             check[0] = 1;
         }
         prev[index] = cur[index];

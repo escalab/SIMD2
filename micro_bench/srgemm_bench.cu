@@ -10,7 +10,7 @@
 
 #include <chrono>
 
-#define NUM_ITR 1
+#define NUM_ITR 20
 
 
 void bench_case(int M, int N, int K, int s1, int s2, int s3){
@@ -230,33 +230,33 @@ void bench_case(int M, int N, int K, int s1, int s2, int s3){
 
 
 
-  std::cout << "cuASR_min_plus: " << cuASR_min_plus / 1000.0 << " ms\n";
-  std::cout << "cuASR_plus_mul: " << cuASR_plus_mul / 1000.0 << " ms\n";
-  std::cout << "cuASR_max_plus: " << cuASR_max_plus / 1000.0 << " ms\n";
-  std::cout << "cuASR_max_min: " << cuASR_max_min / 1000.0 << " ms\n";
-  std::cout << "cuASR_max_mul: " << cuASR_max_mul / 1000.0 << " ms\n";
-  std::cout << "cuASR_min_mul: " << cuASR_min_mul / 1000.0 << " ms\n";
-  std::cout << "cuASR_min_max: " << cuASR_min_max / 1000.0 << " ms\n";
-  std::cout << "cuASR_or_and: " << cuASR_or_and / 1000.0 << " ms\n";
-  std::cout << "cuASR_minus_square: " <<  cuASR_minus_square / 1000.0 << " ms\n";
-  std::cout << "cublas_sgemm: " <<  __cublas_sgemm / 1000.0 << " ms\n";
-  std::cout << "cublas_gemmEx: " <<  __cublas_gemmEx / 1000.0 << " ms\n";
+  std::cout << "cuASR_min_plus: " << cuASR_min_plus / 1000000.0 << " ms\n";
+  std::cout << "cuASR_plus_mul: " << cuASR_plus_mul / 1000000.0 << " ms\n";
+  std::cout << "cuASR_max_plus: " << cuASR_max_plus / 1000000.0 << " ms\n";
+  std::cout << "cuASR_max_min: " << cuASR_max_min / 1000000.0 << " ms\n";
+  std::cout << "cuASR_max_mul: " << cuASR_max_mul / 1000000.0 << " ms\n";
+  std::cout << "cuASR_min_mul: " << cuASR_min_mul / 1000000.0 << " ms\n";
+  std::cout << "cuASR_min_max: " << cuASR_min_max / 1000000.0 << " ms\n";
+  std::cout << "cuASR_or_and: " << cuASR_or_and / 1000000.0 << " ms\n";
+  std::cout << "cuASR_minus_square: " <<  cuASR_minus_square / 1000000.0 << " ms\n";
+  std::cout << "cublas_sgemm: " <<  __cublas_sgemm / 1000000.0 << " ms\n";
+  std::cout << "cublas_gemmEx: " <<  __cublas_gemmEx / 1000000.0 << " ms\n";
 
 
 }
 
 int main(){
-  // bench_case(1024, 1024, 1024, rand(), rand(), rand());
-  // bench_case(2048, 2048, 2048, rand(), rand(), rand());
+  bench_case(1024, 1024, 1024, rand(), rand(), rand());
+  bench_case(2048, 2048, 2048, rand(), rand(), rand());
   bench_case(4096, 4096, 4096, rand(), rand(), rand());
- // bench_case(8192, 8192, 8192, rand(), rand(), rand());
-//   bench_case(16384, 16384, 16384, rand(), rand(), rand());
+  bench_case(8192, 8192, 8192, rand(), rand(), rand());
+  bench_case(16384, 16384, 16384, rand(), rand(), rand());
 
-  //bench_case(2048, 1024, 512, rand(), rand(), rand());
-  //bench_case(4096, 2048, 1024, rand(), rand(), rand());
-  //bench_case(8192, 4096, 2048, rand(), rand(), rand());
-  //bench_case(16384, 8192, 4096, rand(), rand(), rand());
-  //bench_case(32768, 16384, 4096, rand(), rand(), rand());
-  //bench_case(65536, 32768, 16384, rand(), rand(), rand());
+  bench_case(2048, 1024, 512, rand(), rand(), rand());
+  bench_case(4096, 2048, 1024, rand(), rand(), rand());
+  bench_case(8192, 4096, 2048, rand(), rand(), rand());
+  bench_case(16384, 8192, 4096, rand(), rand(), rand());
+  bench_case(32768, 16384, 4096, rand(), rand(), rand());
+  bench_case(65536, 32768, 16384, rand(), rand(), rand());
   return 0;
 }

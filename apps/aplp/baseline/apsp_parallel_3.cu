@@ -30,7 +30,7 @@
 
 #define MIN_MACRO(a,b) ( (a) < (b) ? (a) : (b) )
 
-#define NUM_ITR 1
+#define NUM_ITR 10
 
 /*
  * Max matrix size is N = 2^12 = 4096. 

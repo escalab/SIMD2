@@ -84,7 +84,9 @@ bool test(const float * ref,
             free(test_knn_index);
             return false;
         }
+        
     }
+    //  std::cout << elapsed_time_kernel << "\n";
 
     // Stop timer
     struct timeval toc;
@@ -178,11 +180,12 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    
     // Test all k-NN functions
     test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_mxu,          "knn_mxu",       1);
-    #ifdef PERFORM
-    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_mxu,          "knn_mxu",       30);
-    #endif
+    // #ifdef PERFORM
+    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_mxu,          "knn_mxu",       10);
+    // #endif
     // Deallocate memory 
     free(ref);
     free(query);

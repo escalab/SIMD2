@@ -67,6 +67,13 @@ apps/data/rmat_data/*.txt
 # EXT
 ExtendedTensorCores/*
 -ExtendedTensorCores/src/*.v
-
+-ExtendedTensorCores/*.tcl
 # misc
 .nfs*
+
+scripts/*.csv
+scripts/*.txt
+micro_bench/*.txt
+micro_bench/*.csv
+micro_bench/prof_bench_full
+micro_bench/prof_bench

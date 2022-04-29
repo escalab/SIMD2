@@ -22,7 +22,7 @@
 #include "../../data/graph_gen.h"
 #include "../../../utils/print_mat.h"
 
-#define NUM_ITR 1
+#define NUM_ITR 30
 
 /* Macro to check result of the function call */
 #define CHECK(f) { cuBool_Status s = f; if (s != CUBOOL_STATUS_SUCCESS) return s; }
@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
             exit(0);
         }
         adj_mat = (float*)malloc(v * v * sizeof(float));
+        srand(7);
         edge_count = rgg_1d_directed(adj_mat, v, density, 10, 7);
     }
     

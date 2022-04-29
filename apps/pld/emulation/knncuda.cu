@@ -406,12 +406,13 @@ bool knn_mxu(const float * ref,
              int*          knn_index,
              double *       kernel_time){
     // Constants
+    using namespace std::chrono;
     const unsigned int size_of_float = sizeof(float);
     const unsigned int size_of_half = sizeof(half);
     const unsigned int size_of_int   = sizeof(int);
 
     struct timeval tic;
-    cudaDeviceReset();
+    // cudaDeviceReset();
     // Return variables
     cudaError_t err0, err1, err2, err3, err4,err5;
 
@@ -474,6 +475,7 @@ bool knn_mxu(const float * ref,
     cublasCreate(&cublasHandle);
 
     gettimeofday(&tic, NULL);
+    // auto start  = high_resolution_clock::now();
     // conversion
     f2h_device(ref_dev_half, ref_dev, ref_nb*dim);
     f2h_device(query_dev_half, query_dev, query_nb*dim);
@@ -485,9 +487,13 @@ bool knn_mxu(const float * ref,
 	cudaDeviceSynchronize();
 
     struct timeval toc;
+    // auto end    = high_resolution_clock::now();
+    // auto delta = duration_cast<nanoseconds>(end - start).count();
     gettimeofday(&toc, NULL);
     double elapsed_time = toc.tv_sec - tic.tv_sec;
     *kernel_time += elapsed_time + (toc.tv_usec - tic.tv_usec) / 1000000.;
+    // *kernel_time += (double)delta / 1000000;
+    // printf("kernel time: %f\n", *kernel_time);
 
     // Sort the distances with their respective indexes
     dim3 block1(256, 1, 1);
@@ -538,8 +544,8 @@ bool knn_mxu(const float * ref,
 
     // Memory clean-up
     cudaFree(ref_dev);
-    // cudaFree(ref_dev_half);
-    // cudaFree(query_dev_half);
+    cudaFree(ref_dev_half);
+    cudaFree(query_dev_half);
     cudaFree(query_dev);
     cudaFree(dist_dev);
     cudaFree(index_dev); 

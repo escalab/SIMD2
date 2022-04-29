@@ -188,7 +188,7 @@ int main(int argc, char **argv) {
 
     // Test all k-NN functions
     test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_mxu,          "knn_mxu",       1);
-    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_mxu,          "knn_mxu",       30);
+    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_mxu,          "knn_mxu",       10);
     // Deallocate memory 
     free(ref);
     free(query);

@@ -11,7 +11,8 @@
 
 #define NUM_ITR 20
 #define PERFORM
-#define WORST
+// #define WORST
+// #define APBF
 
 double maxrp_kernel(float * adj_mat, float * dist_tensor, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -93,12 +94,21 @@ int maxrp_itr(float * adj_mat, float * dist, int v) {
     while(run && (num_itr < 500)){ 
         num_itr += 1;
         // 1 iteration of minplus srgemm
+#ifdef APBF
         int retval = cuasr_maxmul_srsgemm(v, v, v, \
-                                        out_d, v, \
+                                        adj_mat_d, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d_delta, \
                                         true, nullptr);
+#else
+        int retval = cuasr_maxmul_srsgemm(v, v, v, \
+            out_d, v, \
+            out_d, v, \
+            out_d, v, \
+            out_d_delta, \
+            true, nullptr);
+#endif
         cudaDeviceSynchronize();
         // check convergence
         run = comp_update(out_d, out_d_delta, check_d, check_h, v,v);
@@ -137,6 +147,7 @@ int main(int argc, char *argv[]){
 
 
     int num_itrs = maxrp_itr(adj_mat,dist_tensor,v);
+    float cs = check_sum<float>(dist_tensor, v*v);
     // printf("iters: %d\n",num_itrs);
 
     cublasHandle_t cublasHandle;
@@ -153,7 +164,7 @@ int main(int argc, char *argv[]){
         rt += maxrp_kernel(adj_mat,dist_tensor,v, num_itrs,cublasHandle);
     }
     
-    // float cs = check_sum<float>(dist_tensor, v*v);
+    
     #endif
 
     cublasDestroy(cublasHandle);

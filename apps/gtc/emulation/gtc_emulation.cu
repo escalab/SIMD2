@@ -12,7 +12,8 @@
 
 #define NUM_ITR 20
 #define PERFORM
-#define WORST
+// #define WORST
+// #define APBF
 
 double gtc_kernel(float * adj_mat, int v, int num_itrs, cublasHandle_t cublasHandle){
     using namespace std::chrono;
@@ -85,12 +86,21 @@ int gtc_itr(int * tc, int v) {
     while(run && (num_itr < 500)){ 
         num_itr += 1;
         // 1 iteration of minplus srgemm
+#ifdef APBF
         int retval = cuasr_orand_srsgemm(v, v, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d_delta, \
                                         true, nullptr);
+#else
+        int retval = cuasr_orand_srsgemm(v, v, v, \
+            out_d, v, \
+            out_d, v, \
+            out_d, v, \
+            out_d_delta, \
+            true, nullptr);
+#endif  
         cudaDeviceSynchronize();
         // check convergence
         run = comp_update(out_d, out_d_delta, check_d, check_h, v,v);

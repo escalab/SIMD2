@@ -1,4 +1,2 @@
 cd micro_bench
-make clean
-make
 ./srgemm_bench

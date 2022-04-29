@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cfloat>
 
-#define NUM_ITR 1
+#define NUM_ITR 10
 
 #define CHECK_CUDA(func)                                                       \
 {                                                                              \
@@ -219,7 +219,7 @@ void apsp_kernel(float * adj_mat, float * dist_tensor,
     double kernel_time_delta = 0;
     double total_time_delta = 0;
     for(int i = 0; i < num_itrs; i ++){
-        cusparseLt_spmm(adj_mat_fp16, out_delta, out, out,
+        cusparseLt_spmm(adj_mat_fp16, adj_mat_fp16, adj_mat_fp16, adj_mat_fp16,
              v, v, v, 1.0, 1, 
              &kernel_time_delta, &total_time_delta);
         *kernel_time += kernel_time_delta;

@@ -46,7 +46,7 @@ double mcp_kernel(float * adj_mat, float * dist, int v) {
         num_itr += 1;
         // 1 iteration of minplus srgemm
         int retval = cuasr_maxmin_srsgemm(v, v, v, \
-                                        adj_mat_d, v, \
+                                        out_d, v, \
                                         out_d, v, \
                                         out_d, v, \
                                         out_d_delta, \

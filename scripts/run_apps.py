@@ -324,6 +324,7 @@ def main():
 
    
     # pld
+    data_dir = '../apps/data/rmat_data/'
     pld_baseline = run_pld_gen(4096,4096,4096,10,'baseline')
     pld_cuAsr = run_pld_gen(4096,4096,4096,10,'cuASR')
     pld_emulation = run_pld_gen(4096,4096,4096,10,'emulation')
@@ -342,6 +343,7 @@ def main():
     sparse_kernel = emulation_sparse[1]
     print('KNN-Medium:', 8192**2,pld_baseline, pld_cuAsr, pld_emulation, sparse_total, sparse_kernel)
 
+    
     pld_baseline = run_pld_gen(16384,16384,16384,10,'baseline')
     pld_cuAsr = run_pld_gen(16384,16384,16384,10,'cuASR')
     pld_emulation = run_pld_gen(16384,16384,16384,10,'emulation')
