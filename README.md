@@ -66,11 +66,15 @@ template<typename T>
 # Enviroment
 | | |
 |---------|-----------|
-|`System` | Ubuntu 16.04.6 LTS|
+|`OS` | Ubuntu 20.04 LTS|
 |`CPU` | AMD Ryzen 3700X  |
 |`GPU` | Nvidia 3080, cuda 11.1|
 | `GCC`| 7.5 |
 
+# Build
+```
+make
+```
 
 # Microbenchmark
 To run micro benchmark:
@@ -79,5 +83,7 @@ To run micro benchmark:
 ```
 
 # Benchamrk Applications
-
-# References
+To run micro benchmark:
+```
+./run_app
+```

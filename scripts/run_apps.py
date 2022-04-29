@@ -22,6 +22,12 @@ def run_apsp_baseline(f):
     res = subprocess.run(command, stdin = input_data, stdout=subprocess.PIPE).stdout.decode('utf-8')
     return res.split('\n')[0]
 
+def run_aplp_baseline(f):
+    input_data = open(str(f))
+    command = ['./../apps/aplp/ecl-aplp/ecl-aplp']
+    res = subprocess.run(command, stdin = input_data, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return res.split('\n')[0]
+
 def run_aplp(f,version):
     input_data = open(str(f))
     command = ['./../apps/aplp/'+version + '/aplp_'+version]
@@ -91,10 +97,10 @@ def get_itr(res):
     return int(res.split(' ')[-1])
 
 def main():
-
+    print('Appliation Datasize baseline(ms) cuASR(ms) emulation(ms) iterations sparseOverdhead sparse(ms)')
     # aplp
     data_dir = '../apps/data/aplp_input/'
-    aplp_baseline = run_aplp(data_dir+'DAG_rmat_4096.txt', 'baseline')
+    aplp_baseline = run_aplp_baseline(data_dir+'DAG_rmat_4096.txt')
     aplp_cuAsr = run_aplp(data_dir+'DAG_rmat_4096.txt', 'cuASR')
     aplp_emulation = run_aplp(data_dir+'DAG_rmat_4096.txt', 'emulation')
     itr = get_itr(aplp_emulation)
@@ -104,7 +110,7 @@ def main():
     sparse_kernel = emulation_sparse[1]
     print('APLP-Small:', 4096,aplp_baseline, aplp_cuAsr, aplp_emulation, sparse_total, sparse_kernel)
 
-    aplp_baseline = run_aplp(data_dir+'DAG_rmat_8192.txt', 'baseline')
+    aplp_baseline = run_aplp_baseline(data_dir+'DAG_rmat_8192.txt')
     aplp_cuAsr = run_aplp(data_dir+'DAG_rmat_8192.txt', 'cuASR')
     aplp_emulation = run_aplp(data_dir+'DAG_rmat_8192.txt', 'emulation')
     itr = get_itr(aplp_emulation)
@@ -114,7 +120,7 @@ def main():
     sparse_kernel = emulation_sparse[1]
     print('APLP-Medium:', 8192,aplp_baseline, aplp_cuAsr, aplp_emulation, sparse_total, sparse_kernel)
 
-    aplp_baseline = run_aplp(data_dir+'DAG_rmat_16284.txt', 'baseline')
+    aplp_baseline = run_aplp_baseline(data_dir+'DAG_rmat_16284.txt')
     aplp_cuAsr = run_aplp(data_dir+'DAG_rmat_16284.txt', 'cuASR')
     aplp_emulation = run_aplp(data_dir+'DAG_rmat_16284.txt', 'emulation')
     itr = get_itr(aplp_emulation)
