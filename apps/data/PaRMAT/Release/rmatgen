@@ -1,0 +1,3 @@
+#!/bin/bash
+./PaRMAT -nEdges $2 -nVertices $1 -threads 10 -sorted -noEdgeToSelf -noDuplicateEdges -output $3
+sed  -i "1i ${1} ${2}" $3
