@@ -15,8 +15,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with APSP-CUDA.  If not, see <http://www.gnu.org/licenses/>.
 # =======================================================================
-
-CUDA_DIR	= /usr/local/cuda-11.1
+include ../../../config.mk
 NVCC		= $(CUDA_DIR)/bin/nvcc
 NVCC_FLAGS  = -O3 -I$(CUDA_DIR)/include -arch=sm_80
 LD_FLAGS    = -lcudart -L$(CUDA_DIR)/lib64 -lcublas

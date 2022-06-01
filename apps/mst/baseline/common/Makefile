@@ -9,7 +9,7 @@ $(BNCHMRK)Check : $(CHECKFILES)
 	$(PCC) $(PLFLAGS) -o $@ $(CHECKFILES)
 
 %.o : %.C $(GLOBAL)
-	$(PCC) $(PCFLAGS) -c $< -o $@
+	$(PCC) $(PCFLAGS) -c $< -o $@ -fPIE
 
 $(GLOBAL) :
 	ln -s ../../common/$@ .

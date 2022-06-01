@@ -73,7 +73,12 @@ template<typename T>
 
 
 # Dependencies:
-cuda 11.1(tested)
+CUDA 11.x is required.
+
+define installed cuda version in `config.mk`, e.g.:
+```
+CUDA_DIR = /usr/local/cuda-11.7
+```
 
 cuSparsLt: https://developer.nvidia.com/cusparselt/downloads
 
@@ -82,7 +87,6 @@ Python 3.8
 ```
 make
 ```
-
 # Microbenchmark
 To run micro benchmark:
 ```

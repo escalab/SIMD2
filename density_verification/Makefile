@@ -1,4 +1,4 @@
-CUDA_DIR = /usr/local/cuda-11.1
+include ../config.mk
 NVCC = $(CUDA_DIR)/bin/nvcc
 NVCC_FLAGS = -I$(CUDA_DIR)/include -I../utils/common/inc
 NVCC_FLAGS += -gencode arch=compute_80,code=compute_80

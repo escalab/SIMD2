@@ -1,3 +1,4 @@
+CUDADIR = /usr/local/cuda-11.7/
 EMUDIRS = apps/apsp/emulation \
 			apps/aplp/emulation \
 			apps/maxrp/emulation \
