@@ -77,3 +77,6 @@ micro_bench/*.txt
 micro_bench/*.csv
 micro_bench/prof_bench_full
 micro_bench/prof_bench
+
+# doc
+cuASR/cutlass/docs/*
