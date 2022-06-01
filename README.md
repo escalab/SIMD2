@@ -71,6 +71,13 @@ template<typename T>
 |`GPU` | Nvidia 3080, cuda 11.1|
 | `GCC`| 7.5 |
 
+
+# Dependencies:
+cuda 11.1(tested)
+
+cuSparsLt: https://developer.nvidia.com/cusparselt/downloads
+
+Python 3.8
 # Build
 ```
 make
