@@ -1,4 +1,4 @@
-include ../../../config.mk
+include ../../config.mk
 NVCC_FLAGS = -I$(CUDA_DIR)/include -gencode arch=compute_61,code=compute_61 -gencode arch=compute_60,code=compute_60 -gencode arch=compute_53,code=compute_53
 NVCC = $(CUDA_DIR)/bin/nvcc
 NVCC_FLAGS = -O3 --std=c++14

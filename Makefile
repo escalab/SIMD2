@@ -24,7 +24,7 @@ BASEDIRS =	apps/apsp/ecl-apsp \
 			apps/pld/baseline \
 			apps/mcp/baseline \
 
-all: cuasr baseline emulation microbench
+all: cuasr baseline emulation microbench sparse
 cuasr: $(CUASRDIRS)
 $(CUASRDIRS):
 	$(MAKE) -C $@
@@ -39,6 +39,9 @@ $(EMUDIRS):
 
 microbench:
 	make -C micro_bench
+
+sparse:
+	make -C apps/emulation_sparse/
 
 test:
 	make -C tests
