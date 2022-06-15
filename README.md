@@ -4,6 +4,42 @@ This repo conatins artifacts of the SIMD^2(SIMD square) project.
 2. Studied the sparsity(density) threshold of gemm-liked computation kernel based on perfomance of `cuSparse_spgemm` and `cublas_gemmEx`.
 4. Collected a set of benchmark applications that can be accelerated with SIMD^2 and shows the speed-up from emulation result.
 
+# Enviroment
+| | |
+|---------|-----------|
+|`OS` | Ubuntu 20.04 LTS|
+|`CPU` | AMD Ryzen 3700X  |
+|`GPU` | Nvidia 3080, cuda 11.1|
+| `GCC`| 7.5 |
+
+
+# Dependencies:
+CUDA 11.x is required.
+
+define installed cuda version in `config.mk`, e.g.:
+```
+CUDA_DIR = /usr/local/cuda-11.7
+```
+
+cuSparsLt: https://developer.nvidia.com/cusparselt/downloads
+
+Python 3.8
+# Build
+```
+git submodule update --init --recursive
+make
+```
+# Microbenchmark
+To run micro benchmark:
+```
+./run_bench
+```
+
+# Benchamrk Applications
+To run micro benchmark:
+```
+./run_app
+```
 
 # Computation kernel and operators that SIMD^2 supports
 |operators | Computation kernel |
@@ -62,39 +98,4 @@ template<typename T>
     T bin_or(T lhs, T rhs){
         return lhs || rhs;
     }
-```
-# Enviroment
-| | |
-|---------|-----------|
-|`OS` | Ubuntu 20.04 LTS|
-|`CPU` | AMD Ryzen 3700X  |
-|`GPU` | Nvidia 3080, cuda 11.1|
-| `GCC`| 7.5 |
-
-
-# Dependencies:
-CUDA 11.x is required.
-
-define installed cuda version in `config.mk`, e.g.:
-```
-CUDA_DIR = /usr/local/cuda-11.7
-```
-
-cuSparsLt: https://developer.nvidia.com/cusparselt/downloads
-
-Python 3.8
-# Build
-```
-make
-```
-# Microbenchmark
-To run micro benchmark:
-```
-./run_bench
-```
-
-# Benchamrk Applications
-To run micro benchmark:
-```
-./run_app
 ```
