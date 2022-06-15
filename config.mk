@@ -1,1 +1,1 @@
-CUDA_DIR = /usr/local/cuda-11.1
+CUDA_DIR = /usr/local/cuda-11.7

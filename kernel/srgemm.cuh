@@ -6,7 +6,7 @@
 #include "../cuASR/include/cuasr/gemm/device/default_srgemm_configuration.h"
 #include "../cuASR/include/cuasr/gemm/device/srgemm.h"
 #include "../cuASR/include/cuasr/functional.h"
-#include "../cuASR/tools/include/cuasr/reference/srgemm/host_srgemm.h"
+// #include "../cuASR/tools/include/cuasr/reference/srgemm/host_srgemm.h"
 #include "../cuASR/include/cuasr/reduction/thread/reduce.h"
 
 /**
