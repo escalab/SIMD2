@@ -1,0 +1,3 @@
+[submodule "cuASR"]
+	path = cuASR
+	url = https://github.com/hpcgarage/cuASR
